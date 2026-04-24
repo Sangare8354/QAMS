@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAMS Form | Teacher Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-primary">
+                <i class="bi bi-journal-check me-2"></i>Teacher QAMS Form
+            </h3>
+            <div>
+                <a href="teacher-panel.html" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+                <a href="../Login/index.html" class="btn btn-danger me-2">
+                    <i class="bi bi-box-arrow-right"></i> Sign Out
+                </a>
+                <button class="btn btn-info text-white" onclick="openHelp()">
+                    <i class="bi bi-question-circle"></i> Help
+                </button>
+            </div>
+        </div>
+
+        <!-- Course Header Info -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-book-half me-2"></i>Course Information</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="text-muted small">Course Name</label>
+                        <p class="fw-semibold">Advanced Database Systems (IT402)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Section</label>
+                        <p class="fw-semibold">Section A</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QAMS Form -->
+        <form id="qamsForm" class="card shadow-sm border-0">
+            <input type="hidden" id="form_id" name="form_id" value="0">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-pencil-square me-2"></i>Quality Assurance Inputs</h5>
+                <div class="row g-3">
+                    <!-- Zoom Link -->
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Zoom / Online Class Link <span class="text-danger">*</span></label>
+                        <input type="url" class="form-control" placeholder="https://zoom.us/j/123456789" required>
+                    </div>
+                    <!-- Number of Classes Taken -->
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Number of Classes Taken <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Enter total classes taken" required>
+                    </div>
+
+                    <!-- Dropdown Menus -->
+                    <div class="col-md-4">
+                        <label class="fw-semibold">Number of Class Tests <span class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                            <option value="">Select</option>
+                            <option>0</option><option>1</option><option>2</option><option>3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-semibold">Midterm Exam Conducted <span class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                            <option value="">Select</option>
+                            <option>Yes</option><option>No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-semibold">Final Term Exam Conducted <span class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                            <option value="">Select</option>
+                            <option>Yes</option><option>No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Number of Assignments <span class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                            <option value="">Select</option>
+                            <option>0</option><option>1</option><option>2</option><option>3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Number of Presentations <span class="text-danger">*</span></label>
+                        <select class="form-select" required>
+                            <option value="">Select</option>
+                            <option>0</option><option>1</option><option>2</option><option>3</option>
+                        </select>
+                    </div>
+
+                    <!-- File Uploads -->
+                    <div class="col-md-12 mt-4">
+                        <h5 class="fw-bold"><i class="bi bi-file-earmark-arrow-up me-2"></i>Upload Required Documents (PDF Only)</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-semibold">Attendance Sheet (PDF) <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" accept=".pdf" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-semibold">Midterm Exam Question (PDF) <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" accept=".pdf" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-semibold">Final Term Exam Question (PDF) <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" accept=".pdf" required>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="text-end mt-5">
+                    <button type="submit" class="btn btn-success btn-lg px-4">
+                        <i class="bi bi-check2-circle me-2"></i>Submit Form
+                    </button>
+                    <button id="revertBtn" class="btn btn-warning btn-lg px-4 ms-2 d-none">
+                        <i class="bi bi-arrow-counterclockwise me-2"></i>Revert (Modify Again)
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Load course info from session storage
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get stored course info from session
+        const courseCode = sessionStorage.getItem('currentCourseCode') || 'IT402';
+        const courseTitle = getCourseTitle(courseCode);
+        const section = 'Section A';
+        
+        // Update course information in the header
+        const courseNameElement = document.querySelector('.card-body p.fw-semibold');
+        if (courseNameElement) {
+            courseNameElement.textContent = `${courseTitle} (${courseCode})`;
+        }
+        
+        const sectionElement = document.querySelectorAll('.card-body p.fw-semibold')[1];
+        if (sectionElement) {
+            sectionElement.textContent = section;
+        }
+        
+        // Check if editing existing form
+        const existingFormId = sessionStorage.getItem('currentFormId');
+        if (existingFormId && existingFormId != '0') {
+            loadExistingForm(existingFormId);
+        }
+    });
+    
+    function getCourseTitle(courseCode) {
+        const courses = {
+            'IT402': 'Advanced Database Systems',
+            'IT405': 'Information Security',
+            'CS301': 'Data Structures and Algorithms',
+            'NET301': 'Network Security',
+            'SE401': 'Software Project Management'
+        };
+        return courses[courseCode] || 'Course';
+    }
+    
+    async function loadExistingForm(formId) {
+    try {
+        const response = await fetch(`/qams/api/get-form.php?id=${formId}`);
+        const data = await response.json();
+        
+        if (data.success && data.form) {
+            // Set the hidden form_id
+            document.getElementById('form_id').value = formId;
+            
+            const form = data.form;
+            document.querySelector('input[type="url"]').value = form.zoom_link || '';
+            document.querySelector('input[type="number"]').value = form.classes_taken || '';
+            
+            // Set dropdown values
+            const selects = document.querySelectorAll('select');
+            if (selects[0]) selects[0].value = form.class_tests || '';
+            if (selects[1]) selects[1].value = form.midterm_conducted ? 'Yes' : 'No';
+            if (selects[2]) selects[2].value = form.final_conducted ? 'Yes' : 'No';
+            if (selects[3]) selects[3].value = form.assignments || '';
+            if (selects[4]) selects[4].value = form.presentations || '';
+            
+            // Show revert button if form was rejected
+            if (form.current_status === 'rejected') {
+                document.getElementById('revertBtn').classList.remove('d-none');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading form:', error);
+    }
+}
+    
+    function openHelp() {
+        alert("HELP:\n\n• Fill all required QA fields.\n• Upload all documents in PDF format only.\n• Once submitted, the form is locked.\n• Only IQAC can activate the Revert button.\n• Revert allows you to modify the form again.");
+    }
+    
+    document.getElementById('qamsForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Collect form data
+        const formData = new FormData();
+        formData.append('course_id', sessionStorage.getItem('currentCourseId') || 1);
+        formData.append('zoom_link', document.querySelector('input[type="url"]').value);
+        formData.append('classes_taken', document.querySelector('input[type="number"]').value);
+        formData.append('class_tests', document.querySelectorAll('select')[0].value);
+        formData.append('midterm_conducted', document.querySelectorAll('select')[1].value === 'Yes' ? 1 : 0);
+        formData.append('final_conducted', document.querySelectorAll('select')[2].value === 'Yes' ? 1 : 0);
+        formData.append('assignments', document.querySelectorAll('select')[3].value);
+        formData.append('presentations', document.querySelectorAll('select')[4].value);
+        
+        // File uploads
+        const files = document.querySelectorAll('input[type="file"]');
+        if (files[0].files[0]) formData.append('attendance', files[0].files[0]);
+        if (files[1].files[0]) formData.append('midterm', files[1].files[0]);
+        if (files[2].files[0]) formData.append('final', files[2].files[0]);
+        
+        // Validate required fields
+        let isValid = true;
+        let errorMsg = '';
+        
+        if (!formData.get('zoom_link')) {
+            errorMsg += '- Zoom link required\n';
+            isValid = false;
+        }
+        if (!formData.get('classes_taken')) {
+            errorMsg += '- Number of classes taken required\n';
+            isValid = false;
+        }
+        if (!files[0].files[0] && !sessionStorage.getItem('currentFormId')) {
+            errorMsg += '- Attendance sheet required for new form\n';
+            isValid = false;
+        }
+        if (!files[1].files[0] && !sessionStorage.getItem('currentFormId')) {
+            errorMsg += '- Midterm question required for new form\n';
+            isValid = false;
+        }
+        if (!files[2].files[0] && !sessionStorage.getItem('currentFormId')) {
+            errorMsg += '- Final question required for new form\n';
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            alert('❌ Please fill all required fields:\n\n' + errorMsg);
+            return;
+        }
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Submitting...';
+        submitBtn.disabled = true;
+        
+        try {
+            const response = await fetch('/qams/api/submit-form.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                alert('✅ ' + data.message + '\n\nForm Number: ' + data.form_number + '\nForm ID: ' + data.form_id + '\n\nStatus: Sent to Department Head');
+                
+                // Update UI
+                submitBtn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Submitted';
+                submitBtn.classList.replace('btn-success', 'btn-secondary');
+                submitBtn.disabled = true;
+                
+                // Clear stored form info
+                sessionStorage.removeItem('currentFormId');
+                
+                // Show revert button (will be enabled by QAMS Head if needed)
+                document.getElementById('revertBtn').classList.remove('d-none');
+            } else {
+                alert('❌ ' + data.message);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Connection error. Please make sure XAMPP is running.');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // Revert button handler (when QAMS Head sends back)
+    document.getElementById('revertBtn')?.addEventListener('click', function() {
+        if (confirm('🔄 Open form for correction?\n\nYou can now edit and resubmit the form.')) {
+            // Enable all fields
+            document.querySelectorAll('input, select').forEach(el => {
+                el.disabled = false;
+            });
+            
+            // Enable file inputs
+            document.querySelectorAll('input[type="file"]').forEach(el => {
+                el.disabled = false;
+            });
+            
+            const submitBtn = document.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="bi bi-send me-2"></i>Resubmit Form';
+            submitBtn.classList.replace('btn-secondary', 'btn-warning');
+            submitBtn.disabled = false;
+            
+            this.classList.add('d-none');
+            alert('✏️ Form is now editable. Make corrections and resubmit.');
+        }
+    });
+</script>
+</body>
+</html>

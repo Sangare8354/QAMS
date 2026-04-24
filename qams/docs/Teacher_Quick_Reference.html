@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Quick Reference Card</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f2f5;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px;
+            border-radius: 12px 12px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .title { font-size: 24px; font-weight: bold; margin: 0; }
+        .subtitle { font-size: 14px; opacity: 0.9; margin: 5px 0 0; }
+        .section { margin-bottom: 20px; }
+        .section-title { font-weight: bold; color: #0d6efd; border-left: 3px solid #0d6efd; padding-left: 10px; margin-bottom: 10px; }
+        .step { margin-bottom: 10px; }
+        .step-number { display: inline-block; width: 24px; height: 24px; background: #0d6efd; color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; margin-right: 10px; }
+        .status-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+        .status-table td { padding: 5px; border-bottom: 1px solid #eee; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .badge-draft { background: #e9ecef; color: #495057; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-approved { background: #d4edda; color: #155724; }
+        .badge-rejected { background: #f8d7da; color: #721c24; }
+        .footer { text-align: center; font-size: 10px; color: #6c757d; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="title">👨‍🏫 TEACHER QUICK REFERENCE</div>
+            <div class="subtitle">QAMS System - Quick Guide</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📝 SUBMIT A FORM</div>
+            <div class="step"><span class="step-number">1</span> Open teacher-panel.html</div>
+            <div class="step"><span class="step-number">2</span> Click "Open Form" for your course</div>
+            <div class="step"><span class="step-number">3</span> Fill all fields (Zoom link, classes taken, etc.)</div>
+            <div class="step"><span class="step-number">4</span> Upload PDFs: Attendance, Midterm, Final</div>
+            <div class="step"><span class="step-number">5</span> Click "Submit Form"</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📊 STATUS MEANINGS</div>
+            <table class="status-table">
+                <tr><td><span class="badge badge-draft">Draft</span></td><td>Not submitted yet</td><td>Click "Open Form"</td></tr>
+                <tr><td><span class="badge badge-pending">Pending Dept</span></td><td>With Department Head</td><td>Cannot edit</td></tr>
+                <tr><td><span class="badge badge-pending">Pending Dean</span></td><td>With Dean</td><td>Cannot edit</td></tr>
+                <tr><td><span class="badge badge-pending">Pending QAMS</span></td><td>Final review</td><td>Cannot edit</td></tr>
+                <tr><td><span class="badge badge-rejected">Rejected</span></td><td>Needs correction</td><td>Edit & Resubmit</td></tr>
+                <tr><td><span class="badge badge-approved">Approved</span></td><td>Archived</td><td>View only</td></tr>
+             </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">🔧 FIX REJECTED FORM</div>
+            <div class="step"><span class="step-number">1</span> Read rejection reason</div>
+            <div class="step"><span class="step-number">2</span> Click "Edit & Resubmit"</div>
+            <div class="step"><span class="step-number">3</span> Make corrections</div>
+            <div class="step"><span class="step-number">4</span> Click "Resubmit Form"</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">⚙️ CHANGE PASSWORD</div>
+            <div class="step"><span class="step-number">1</span> Click Settings (gear icon)</div>
+            <div class="step"><span class="step-number">2</span> Go to Security tab</div>
+            <div class="step"><span class="step-number">3</span> Enter current & new password</div>
+            <div class="step"><span class="step-number">4</span> Click "Update Password"</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">🔔 NOTIFICATIONS</div>
+            <div class="step"><span class="step-number">📱</span> Bell icon shows unread count</div>
+            <div class="step"><span class="step-number">👆</span> Click to see notifications</div>
+            <div class="step"><span class="step-number">✅</span> Click notification to mark read</div>
+            <div class="step"><span class="step-number">📌</span> "Mark all read" clears all</div>
+        </div>
+        
+        <div class="footer">
+            Login: username@edu.gh | Default password: teacher123<br>
+            Contact: +233 (0) 535 181 963 | Support: itsupport@edu.gh
+        </div>
+    </div>
+</body>
+</html>

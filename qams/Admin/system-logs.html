@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Logs & Audit - QAMS Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
+        <div class="container-fluid">
+            <span class="navbar-brand fw-bold"><i class="bi bi-journal-text me-2"></i>System Logs & Audit Trail</span>
+            <div class="d-flex">
+                <a href="admin-dashboard.html" class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+                <a href="../Login/index.html" class="btn btn-danger btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Log Statistics -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-activity text-primary fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1">Total Activities</h6>
+                                <h3 class="fw-bold mb-0" id="totalActivities">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-check-circle text-success fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1">Approvals</h6>
+                                <h3 class="fw-bold mb-0" id="totalApprovals">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-arrow-counterclockwise text-warning fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1">Rejections</h6>
+                                <h3 class="fw-bold mb-0" id="totalRejections">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-info bg-opacity-10 p-3 rounded-circle me-3">
+                                <i class="bi bi-archive text-info fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted mb-1">Archives</h6>
+                                <h3 class="fw-bold mb-0" id="totalArchives">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Date Range</label>
+                                <select class="form-select" id="dateRange" onchange="loadLogs()">
+                                    <option value="7">Last 7 Days</option>
+                                    <option value="30" selected>Last 30 Days</option>
+                                    <option value="90">Last 90 Days</option>
+                                    <option value="all">All Time</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">User Role</label>
+                                <select class="form-select" id="roleFilter" onchange="loadLogs()">
+                                    <option value="all">All Roles</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="dept_head">Department Head</option>
+                                    <option value="dean">Dean</option>
+                                    <option value="qams_head">QAMS Head</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Action Type</label>
+                                <select class="form-select" id="actionFilter" onchange="loadLogs()">
+                                    <option value="all">All Actions</option>
+                                    <option value="submit">Submit</option>
+                                    <option value="approve">Approve</option>
+                                    <option value="reject">Reject</option>
+                                    <option value="archive">Archive</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Search</label>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search by user, form ID..." onkeyup="filterLogs()">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button class="btn btn-primary me-2" onclick="loadLogs()"><i class="bi bi-funnel me-2"></i>Apply Filters</button>
+                            <button class="btn btn-outline-secondary" onclick="exportLogs()"><i class="bi bi-download me-2"></i>Export as CSV</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Log Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="fw-bold"><i class="bi bi-list-check me-2 text-primary"></i>Complete Audit Trail</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                        <th>Form/Course</th>
+                                        <th>Comments</th>
+                                     </thead>
+                                <tbody id="logsTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <br>Loading audit logs...
+                                         </td>
+                                     </tr>
+                                </tbody>
+                             </table>
+                        </div>
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center" id="pagination"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Insights Charts -->
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="fw-bold"><i class="bi bi-pie-chart me-2 text-primary"></i>Actions by Role (Last 30 Days)</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="roleChart" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="fw-bold"><i class="bi bi-clock-history me-2 text-primary"></i>Activity Timeline (Last 7 Days)</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="timelineChart" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Detail Modal -->
+    <div class="modal fade" id="logDetailModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Log Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="logDetailContent"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0">
+            <div class="d-flex">
+                <div class="toast-body"><i class="bi bi-check-circle-fill me-2"></i><span id="toastMessage"></span></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let allLogs = [];
+        let filteredLogs = [];
+        let currentPage = 1;
+        let itemsPerPage = 20;
+        let roleChart, timelineChart;
+        let successToast;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            successToast = new bootstrap.Toast(document.getElementById('successToast'));
+            loadLogs();
+        });
+
+        async function loadLogs() {
+            const days = document.getElementById('dateRange').value;
+            const role = document.getElementById('roleFilter').value;
+            const action = document.getElementById('actionFilter').value;
+            let url = `/qams/api/admin/logs.php?limit=200`;
+            if (days !== 'all') url += `&days=${days}`;
+            if (role !== 'all') url += `&role=${role}`;
+            if (action !== 'all') url += `&action=${action}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allLogs = data.logs;
+                    filteredLogs = [...allLogs];
+                    updateStats(data.stats);
+                    renderCharts(data.role_stats, data.daily_stats);
+                    renderTable();
+                    showToast(`✅ Loaded ${allLogs.length} log entries`, 'success');
+                } else {
+                    showToast('❌ Failed to load logs', 'error');
+                    document.getElementById('logsTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Failed to load audit logs</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Connection error', 'error');
+                document.getElementById('logsTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Connection error. Please check if XAMPP is running.</td></tr>';
+            }
+        }
+
+        function updateStats(stats) {
+            if (stats) {
+                document.getElementById('totalActivities').textContent = stats.total || 0;
+                document.getElementById('totalApprovals').textContent = stats.approves || 0;
+                document.getElementById('totalRejections').textContent = stats.rejects || 0;
+                document.getElementById('totalArchives').textContent = stats.archives || 0;
+            }
+        }
+
+        function filterLogs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filteredLogs = allLogs.filter(log => 
+                    (log.full_name && log.full_name.toLowerCase().includes(searchTerm)) ||
+                    (log.username && log.username.toLowerCase().includes(searchTerm)) ||
+                    (log.comments && log.comments.toLowerCase().includes(searchTerm)) ||
+                    (log.form_id && log.form_id.toString().includes(searchTerm))
+                );
+            } else {
+                filteredLogs = [...allLogs];
+            }
+            currentPage = 1;
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('logsTableBody');
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageLogs = filteredLogs.slice(start, end);
+            
+            if (pageLogs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><i class="bi bi-inbox fs-1 text-muted"></i><p class="mt-2 mb-0">No log entries found</p></td></tr>';
+                renderPagination();
+                return;
+            }
+            
+            tbody.innerHTML = pageLogs.map(log => {
+                const timestamp = new Date(log.created_at).toLocaleString();
+                let roleBadge = '', actionBadge = '';
+                
+                // Role badge
+                if (log.role === 'teacher') roleBadge = '<span class="badge bg-primary">Teacher</span>';
+                else if (log.role === 'dept_head') roleBadge = '<span class="badge bg-success">Dept Head</span>';
+                else if (log.role === 'dean') roleBadge = '<span class="badge bg-info">Dean</span>';
+                else if (log.role === 'qams_head') roleBadge = '<span class="badge bg-warning text-dark">QAMS Head</span>';
+                else if (log.role === 'admin') roleBadge = '<span class="badge bg-dark">Admin</span>';
+                else roleBadge = `<span class="badge bg-secondary">${log.role || 'User'}</span>`;
+                
+                // Action badge
+                if (log.action === 'submit') actionBadge = '<span class="badge bg-primary">Submit</span>';
+                else if (log.action === 'approve') actionBadge = '<span class="badge bg-success">Approve</span>';
+                else if (log.action === 'reject') actionBadge = '<span class="badge bg-danger">Reject</span>';
+                else if (log.action === 'archive') actionBadge = '<span class="badge bg-info">Archive</span>';
+                else actionBadge = `<span class="badge bg-secondary">${log.action}</span>`;
+                
+                // Format comments
+                let comments = log.comments ? (log.comments.length > 60 ? log.comments.substring(0, 60) + '...' : log.comments) : '-';
+                
+                return `
+                    <tr onclick="showLogDetail(${JSON.stringify(escapeHtmlObj(log)).replace(/"/g, '&quot;')})" style="cursor:pointer">
+                        <td><small>${timestamp}</small></td>
+                        <td>
+                            <strong>${escapeHtml(log.full_name || log.username)}</strong>
+                            <br><small class="text-muted">${escapeHtml(log.username)}</small>
+                        </td>
+                        <td>${roleBadge}</td>
+                        <td>${actionBadge}</td>
+                        <td>Form #${log.form_id}</td>
+                        <td><small class="text-muted">${escapeHtml(comments)}</small></td>
+                    </tr>
+                `;
+            }).join('');
+            
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+            
+            let html = `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a></li>`;
+            
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            if (endPage - startPage < 4 && startPage > 1) startPage = Math.max(1, endPage - 4);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<li class="page-item ${currentPage === i ? 'active' : ''}"><a class="page-link" href="#" onclick="changePage(${i})">${i}</a></li>`;
+            }
+            
+            if (endPage < totalPages) {
+                html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                html += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a></li>`;
+            }
+            
+            html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}"><a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a></li>`;
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) { currentPage = page; renderTable(); }
+
+        function showLogDetail(log) {
+            const logObj = typeof log === 'string' ? JSON.parse(log) : log;
+            document.getElementById('logDetailContent').innerHTML = `
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>User:</strong> ${escapeHtml(logObj.full_name)} (${escapeHtml(logObj.username)})</p>
+                        <p><strong>Role:</strong> ${escapeHtml(logObj.role)}</p>
+                        <p><strong>Action:</strong> ${escapeHtml(logObj.action)}</p>
+                        <p><strong>Form ID:</strong> #${logObj.form_id}</p>
+                        <p><strong>Timestamp:</strong> ${new Date(logObj.created_at).toLocaleString()}</p>
+                        <p><strong>Comments:</strong><br>${escapeHtml(logObj.comments || 'No comments')}</p>
+                    </div>
+                </div>
+            `;
+            new bootstrap.Modal(document.getElementById('logDetailModal')).show();
+        }
+
+        function renderCharts(roleStats, dailyStats) {
+            // Role Distribution Chart
+            const roleCtx = document.getElementById('roleChart')?.getContext('2d');
+            if (roleCtx && roleStats && roleStats.length > 0) {
+                if (roleChart) roleChart.destroy();
+                roleChart = new Chart(roleCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: roleStats.map(r => r.type_name),
+                        datasets: [{
+                            data: roleStats.map(r => r.count),
+                            backgroundColor: ['#0d6efd', '#198754', '#0dcaf0', '#ffc107', '#6c757d', '#dc3545']
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: true }
+                });
+            } else if (roleCtx) {
+                if (roleChart) roleChart.destroy();
+                roleChart = new Chart(roleCtx, {
+                    type: 'doughnut',
+                    data: { labels: ['No Data'], datasets: [{ data: [1], backgroundColor: ['#6c757d'] }] },
+                    options: { responsive: true }
+                });
+            }
+            
+            // Timeline Chart
+            const timelineCtx = document.getElementById('timelineChart')?.getContext('2d');
+            if (timelineCtx && dailyStats) {
+                const last7Days = getLast7Days();
+                const dailyMap = {};
+                dailyStats.forEach(d => { dailyMap[d.date] = d.count; });
+                const dailyCounts = last7Days.map(day => dailyMap[day.toISOString().split('T')[0]] || 0);
+                const dayLabels = last7Days.map(d => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+                
+                if (timelineChart) timelineChart.destroy();
+                timelineChart = new Chart(timelineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: dayLabels,
+                        datasets: [{
+                            label: 'Activities',
+                            data: dailyCounts,
+                            borderColor: '#0d6efd',
+                            backgroundColor: 'rgba(13,110,253,0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: true }
+                });
+            }
+        }
+
+        function getLast7Days() {
+            let days = [];
+            for (let i = 6; i >= 0; i--) {
+                let d = new Date();
+                d.setDate(d.getDate() - i);
+                days.push(d);
+            }
+            return days;
+        }
+
+        function exportLogs() {
+            if (filteredLogs.length === 0) {
+                showToast('⚠️ No logs to export', 'warning');
+                return;
+            }
+            
+            let csv = "Timestamp,User,Username,Role,Action,Form ID,Comments\n";
+            filteredLogs.forEach(log => {
+                csv += `"${new Date(log.created_at).toLocaleString()}","${log.full_name || ''}","${log.username || ''}","${log.role || ''}","${log.action || ''}","${log.form_id || ''}","${(log.comments || '').replace(/"/g, '""')}"\n`;
+            });
+            
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `qams_logs_${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 Logs exported successfully', 'success');
+        }
+
+        function showToast(message, type = 'info') {
+            document.getElementById('toastMessage').textContent = message;
+            const toastElement = document.getElementById('successToast');
+            toastElement.className = `toast align-items-center text-white bg-${type === 'error' ? 'danger' : type === 'warning' ? 'warning' : 'success'} border-0`;
+            successToast.show();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        function escapeHtmlObj(obj) {
+            const escaped = {};
+            for (let key in obj) {
+                if (typeof obj[key] === 'string') escaped[key] = escapeHtml(obj[key]);
+                else escaped[key] = obj[key];
+            }
+            return escaped;
+        }
+    </script>
+</body>
+</html>

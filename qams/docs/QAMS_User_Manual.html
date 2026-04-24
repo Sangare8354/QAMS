@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QAMS User Manual</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 { color: #0d6efd; border-bottom: 3px solid #0d6efd; padding-bottom: 10px; }
+        h2 { color: #0d6efd; margin-top: 30px; }
+        h3 { color: #495057; margin-top: 20px; }
+        .cover {
+            text-align: center;
+            padding: 100px 0;
+            border-bottom: none;
+        }
+        .cover h1 { font-size: 36px; border: none; }
+        .toc { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #0d6efd; color: white; }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-draft { background: #e9ecef; color: #495057; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+        .footer { text-align: center; margin-top: 50px; font-size: 12px; color: #6c757d; }
+        .page-break { page-break-before: always; }
+        .screenshot {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        .screenshot-placeholder {
+            background: #e9ecef;
+            padding: 60px;
+            text-align: center;
+            border-radius: 8px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover">
+        <h1>🏫 Quality Assurance Management System</h1>
+        <h2>User Manual</h2>
+        <p style="font-size: 18px; margin-top: 50px;">Version 1.0</p>
+        <p style="margin-top: 100px;">University of Ghana<br>Quality Assurance Office</p>
+        <p style="margin-top: 50px;">March 2026</p>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="page-break"></div>
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#overview">1. System Overview</a></li>
+            <li><a href="#getting-started">2. Getting Started</a></li>
+            <li><a href="#teacher">3. Teacher Guide</a></li>
+            <li><a href="#dept-head">4. Department Head Guide</a></li>
+            <li><a href="#dean">5. Dean Guide</a></li>
+            <li><a href="#qams-head">6. QAMS Head Guide</a></li>
+            <li><a href="#admin">7. Administrator Guide</a></li>
+            <li><a href="#common">8. Common Tasks</a></li>
+            <li><a href="#troubleshooting">9. Troubleshooting</a></li>
+            <li><a href="#faq">10. FAQs</a></li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 1: System Overview -->
+    <h1 id="overview">1. System Overview</h1>
+    <h3>What is QAMS?</h3>
+    <p>QAMS (Quality Assurance Management System) is a web-based platform designed to streamline the quality assurance process for educational institutions. It enables teachers to submit course quality forms, and allows Department Heads, Deans, and QAMS Heads to review, approve, and archive these forms through a structured workflow.</p>
+    
+    <h3>Key Benefits</h3>
+    <ul>
+        <li><strong>Streamlined Process</strong>: Automated approval workflow from teacher to archive</li>
+        <li><strong>Transparency</strong>: Complete audit trail of all actions</li>
+        <li><strong>Accountability</strong>: Clear role-based responsibilities</li>
+        <li><strong>Efficiency</strong>: Reduce paper work and manual tracking</li>
+        <li><strong>Compliance</strong>: Meet accreditation requirements with proper documentation</li>
+    </ul>
+    
+    <h3>Workflow Overview</h3>
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-diagram-3" style="font-size: 48px;"></i>
+            <p>Teacher → Department Head → Dean → QAMS Head → Archive</p>
+            <p>Submit → Approve/Revert → Approve/Revert → Final Approve → Store</p>
+        </div>
+        <small>Figure 1: QAMS Approval Workflow</small>
+    </div>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 2: Getting Started -->
+    <h1 id="getting-started">2. Getting Started</h1>
+    
+    <h3>Accessing the System</h3>
+    <ol>
+        <li>Open your web browser (Chrome, Firefox, Edge recommended)</li>
+        <li>Go to: <code>http://localhost/qams/Login/index.html</code> (or your server address)</li>
+        <li>Enter your credentials provided by the administrator</li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-box-arrow-in-right" style="font-size: 48px;"></i>
+            <p><strong>Login Screen</strong></p>
+            <p>Username: ___________<br>Password: ___________</p>
+            <p>Email format: username@edu.gh</p>
+        </div>
+        <small>Figure 2: QAMS Login Screen</small>
+    </div>
+    
+    <h3>Dashboard Overview</h3>
+    <p>After login, you'll see your role-specific dashboard with:</p>
+    <ul>
+        <li>Personal information card</li>
+        <li>Pending tasks list</li>
+        <li>Recent activities</li>
+        <li>Settings menu (gear icon)</li>
+        <li>Notification bell</li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 3: Teacher Guide -->
+    <h1 id="teacher">3. Teacher Guide</h1>
+    
+    <h3>Your Role</h3>
+    <p>As a teacher, you are responsible for submitting QAMS forms for your courses each semester.</p>
+    
+    <h3>Login Credentials</h3>
+    <ul>
+        <li><strong>Username</strong>: Your username (e.g., <code>john.teacher</code>)</li>
+        <li><strong>Password</strong>: Provided by admin (default: <code>teacher123</code>)</li>
+        <li><strong>Email</strong>: username@edu.gh</li>
+    </ul>
+    
+    <h3>Teacher Dashboard Components</h3>
+    
+    <h4>Personal Information Card</h4>
+    <p>Displays your:</p>
+    <ul>
+        <li>Full name</li>
+        <li>Faculty</li>
+        <li>Department</li>
+        <li>Current semester</li>
+        <li>Academic year</li>
+        <li>Employee ID</li>
+    </ul>
+    
+    <h4>Courses Assigned Table</h4>
+    <p>Shows all courses you're teaching with:</p>
+    <ul>
+        <li>Course Code</li>
+        <li>Course Title</li>
+        <li>Credits</li>
+        <li>Section</li>
+        <li>Form Status</li>
+        <li>Last Updated</li>
+    </ul>
+    
+    <h4>Status Indicators</h4>
+    <table>
+        <tr><th>Status</th><th>Meaning</th><th>Action</th></tr>
+        <tr><td><span class="status-badge status-draft">Draft</span></td><td>Form not submitted</td><td>Click "Open Form" to complete</td></tr>
+        <tr><td><span class="status-badge status-pending">Pending Dept Head</span></td><td>Waiting for Department Head approval</td><td>Cannot edit</td></tr>
+        <tr><td><span class="status-badge status-pending">Pending Dean</span></td><td>Waiting for Dean approval</td><td>Cannot edit</td></tr>
+        <tr><td><span class="status-badge status-pending">Pending QAMS Head</span></td><td>Waiting for final approval</td><td>Cannot edit</td></tr>
+        <tr><td><span class="status-badge status-rejected">Rejected</span></td><td>Needs correction</td><td>Click "Edit & Resubmit"</td></tr>
+        <tr><td><span class="status-badge status-approved">Approved</span></td><td>Form archived</td><td>View only</td></tr>
+    </table>
+    
+    <h3>How to Submit a QAMS Form</h3>
+    
+    <h4>Step 1: Open Form</h4>
+    <ol>
+        <li>From your dashboard, find the course in the "Courses Assigned" table</li>
+        <li>Click the <strong>"Open Form"</strong> button</li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-journal-text" style="font-size: 48px;"></i>
+            <p><strong>QAMS Form</strong></p>
+            <p>Course: IT402 - Advanced Database Systems</p>
+            <p>Section: A</p>
+        </div>
+        <small>Figure 3: QAMS Form Interface</small>
+    </div>
+    
+    <h4>Step 2: Fill Form Fields</h4>
+    <table>
+        <tr><th>Field</th><th>Description</th><th>Requirement</th></tr>
+        <tr><td>Zoom Link</td><td>Online class link</td><td>Required</td></tr>
+        <tr><td>Classes Taken</td><td>Number of classes conducted</td><td>Required</td></tr>
+        <tr><td>Class Tests</td><td>Number of tests conducted</td><td>Required</td></tr>
+        <tr><td>Midterm Exam</td><td>Was it conducted?</td><td>Required (Yes/No)</td></tr>
+        <tr><td>Final Exam</td><td>Was it conducted?</td><td>Required (Yes/No)</td></tr>
+        <tr><td>Assignments</td><td>Number of assignments</td><td>Required</td></tr>
+        <tr><td>Presentations</td><td>Number of presentations</td><td>Required</td></tr>
+    </table>
+    
+    <h4>Step 3: Upload Documents</h4>
+    <p>Upload the following PDF documents:</p>
+    <ul>
+        <li><strong>Attendance Sheet</strong> (PDF format, max 10MB)</li>
+        <li><strong>Midterm Exam Question</strong> (PDF format, max 10MB)</li>
+        <li><strong>Final Exam Question</strong> (PDF format, max 10MB)</li>
+    </ul>
+    
+    <h4>Step 4: Submit</h4>
+    <ol>
+        <li>Review all information for accuracy</li>
+        <li>Click <strong>"Submit Form"</strong></li>
+        <li>You'll receive confirmation: "Form submitted to Department Head"</li>
+        <li>Status changes to "Pending Dept Head"</li>
+    </ol>
+    
+    <h3>How to Handle Rejected Forms</h3>
+    <p>If your form is rejected:</p>
+    <ol>
+        <li>You'll see status <strong>"Rejected - Needs Correction"</strong></li>
+        <li>Click <strong>"Edit & Resubmit"</strong></li>
+        <li>Read the rejection reason displayed</li>
+        <li>Make necessary corrections</li>
+        <li>Click <strong>"Resubmit Form"</strong></li>
+        <li>The form goes back to Department Head for review</li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-exclamation-triangle" style="font-size: 48px;"></i>
+            <p><strong>Rejection Message Example:</strong></p>
+            <p>"Incomplete attendance records. Please upload the full attendance sheet."</p>
+        </div>
+        <small>Figure 4: Rejection Notification</small>
+    </div>
+    
+    <h3>How to Change Password</h3>
+    <ol>
+        <li>Click <strong>Settings</strong> (gear icon ⚙️)</li>
+        <li>Go to <strong>Security</strong> tab</li>
+        <li>Enter:
+            <ul>
+                <li>Current Password</li>
+                <li>New Password (minimum 8 characters with letter and number)</li>
+                <li>Confirm New Password</li>
+            </ul>
+        </li>
+        <li>Click <strong>Update Password</strong></li>
+        <li>You'll be redirected to login with new password</li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-shield-lock" style="font-size: 48px;"></i>
+            <p><strong>Change Password Form</strong></p>
+            <p>Current Password: [______]</p>
+            <p>New Password: [______]</p>
+            <p>Confirm Password: [______]</p>
+            <p>[Update Password]</p>
+        </div>
+        <small>Figure 5: Change Password Interface</small>
+    </div>
+    
+    <h3>How to Use Filters</h3>
+    <ol>
+        <li>Select <strong>Academic Year</strong> from dropdown (e.g., 2025-26)</li>
+        <li>Select <strong>Semester</strong> from dropdown (e.g., Semester 5)</li>
+        <li>Click <strong>"Apply Filters"</strong> to see filtered courses</li>
+        <li>Filters are saved for future visits</li>
+        <li>Click <strong>"Reset"</strong> to clear filters</li>
+    </ol>
+    
+    <h3>Notifications</h3>
+    <ul>
+        <li><strong>Bell Icon 🔔</strong>: Shows unread notifications</li>
+        <li>Click to see notifications about form status changes</li>
+        <li>Click any notification to mark as read</li>
+        <li>Click "Mark all read" to clear all</li>
+        <li>Red badge shows number of unread notifications</li>
+    </ul>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-bell" style="font-size: 48px;"></i>
+            <p><strong>Notification Panel</strong></p>
+            <p>• Form IT402 Approved by Dept Head - 5m ago</p>
+            <p>• Form IT405 Needs Correction - 1h ago</p>
+            <p>• Form CS301 Forwarded to Dean - 2h ago</p>
+        </div>
+        <small>Figure 6: Notification Panel</small>
+    </div>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 4: Department Head Guide -->
+    <h1 id="dept-head">4. Department Head Guide</h1>
+    
+    <h3>Your Role</h3>
+    <p>As Department Head, you review and validate forms submitted by teachers in your department.</p>
+    
+    <h3>Login Credentials</h3>
+    <ul>
+        <li><strong>Username</strong>: <code>ama.depthead</code></li>
+        <li><strong>Password</strong>: <code>depthead123</code> (default)</li>
+        <li><strong>Email</strong>: ama.depthead@edu.gh</li>
+    </ul>
+    
+    <h3>Department Head Dashboard Components</h3>
+    
+    <h4>Personal Information</h4>
+    <p>Displays your:</p>
+    <ul>
+        <li>Name</li>
+        <li>Faculty</li>
+        <li>Department</li>
+        <li>Current semester</li>
+        <li>Academic year</li>
+        <li>Employee ID</li>
+    </ul>
+    
+    <h4>Pending Submissions List</h4>
+    <p>Shows forms waiting for your review with:</p>
+    <ul>
+        <li>Teacher Name and Employee ID</li>
+        <li>Course Code and Title</li>
+        <li>Section</li>
+        <li>Submission Date</li>
+        <li>Current Status</li>
+        <li>Rejection Reason (if any)</li>
+    </ul>
+    
+    <h3>How to Review a Form</h3>
+    
+    <h4>Step 1: View Form Details</h4>
+    <ol>
+        <li>Click <strong>"View"</strong> button on any pending submission</li>
+        <li>Review all form details:
+            <ul>
+                <li>Teacher information</li>
+                <li>Course information</li>
+                <li>Quality Assurance data</li>
+                <li>Uploaded PDF documents</li>
+                <li>Submission timeline</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-eye" style="font-size: 48px;"></i>
+            <p><strong>Form Details Modal</strong></p>
+            <p>• Teacher: John Doe (EMP-10293)</p>
+            <p>• Course: IT402 - Advanced Database Systems</p>
+            <p>• Classes Taken: 30/30</p>
+            <p>• [Attendance Sheet PDF] [Midterm PDF] [Final PDF]</p>
+        </div>
+        <small>Figure 7: Form Details View</small>
+    </div>
+    
+    <h4>Step 2: Make Decision</h4>
+    <p>You have two options:</p>
+    
+    <h5>A. Approve Form</h5>
+    <ol>
+        <li>Click <strong>"Approve"</strong></li>
+        <li>Add optional comments (e.g., "Good work, forwarded to Dean")</li>
+        <li>Form automatically forwarded to Dean</li>
+        <li>Teacher receives approval notification</li>
+    </ol>
+    
+    <h5>B. Revert Form (for corrections)</h5>
+    <ol>
+        <li>Click <strong>"Revert"</strong></li>
+        <li>Enter detailed reason (minimum 10 characters)</li>
+        <li>Form returns to teacher for correction</li>
+        <li>Teacher receives rejection notification with reason</li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-check-lg" style="font-size: 48px;"></i>
+            <p><strong>Decision Buttons</strong></p>
+            <p>[View] [Approve] [Revert]</p>
+        </div>
+        <small>Figure 8: Action Buttons</small>
+    </div>
+    
+    <h3>How to Filter Submissions</h3>
+    <p>Use the filter bar to:</p>
+    <ul>
+        <li>Select <strong>Department</strong> (your department only)</li>
+        <li>Select <strong>Academic Year</strong></li>
+        <li>Select <strong>Semester</strong></li>
+        <li>Select <strong>Status</strong> (Pending, Rejected, Approved)</li>
+        <li>Click <strong>"Apply Filters"</strong></li>
+        <li>Click <strong>"Reset"</strong> to clear filters</li>
+    </ul>
+    
+    <h3>Notifications</h3>
+    <ul>
+        <li>Receive alerts when new forms are submitted</li>
+        <li>Get notifications when Dean reverts forms</li>
+        <li>Unread count shown on bell icon</li>
+        <li>Click notification to view related form</li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 5: Dean Guide -->
+    <h1 id="dean">5. Dean Guide</h1>
+    
+    <h3>Your Role</h3>
+    <p>As Dean, you review forms approved by Department Heads from your faculty.</p>
+    
+    <h3>Login Credentials</h3>
+    <ul>
+        <li><strong>Username</strong>: <code>kwame.dean</code></li>
+        <li><strong>Password</strong>: <code>dean123</code> (default)</li>
+        <li><strong>Email</strong>: kwame.dean@edu.gh</li>
+    </ul>
+    
+    <h3>Dean Dashboard</h3>
+    
+    <h4>Personal Information</h4>
+    <p>Shows your:</p>
+    <ul>
+        <li>Name</li>
+        <li>Faculty</li>
+        <li>Current semester</li>
+        <li>Academic year</li>
+        <li>Employee ID</li>
+    </ul>
+    
+    <h4>Pending Forms Table</h4>
+    <p>List of forms approved by Department Heads showing:</p>
+    <ul>
+        <li>Form Number</li>
+        <li>Teacher Name</li>
+        <li>Course Code and Title</li>
+        <li>Department</li>
+        <li>Department Head Name</li>
+        <li>Submission Date</li>
+        <li>Current Status</li>
+    </ul>
+    
+    <h3>How to Verify a Form</h3>
+    
+    <h4>Step 1: Select a Form</h4>
+    <ol>
+        <li>From the dashboard, click <strong>"Verify"</strong> on any pending form</li>
+        <li>You'll be taken to the verification panel</li>
+    </ol>
+    
+    <h4>Step 2: Review Details</h4>
+    <p>The verification panel shows:</p>
+    <ul>
+        <li>Teacher information (name, email, employee ID)</li>
+        <li>Department Head information (name, email)</li>
+        <li>Course details (code, title, credits)</li>
+        <li>Quality Assurance data</li>
+        <li>Uploaded PDF documents</li>
+        <li>Submission timeline</li>
+        <li>Rejection history (if any)</li>
+    </ul>
+    
+    <h4>Step 3: Make Decision</h4>
+    
+    <h5>A. Approve Form</h5>
+    <ol>
+        <li>Click <strong>"Approve & Forward to QAMS Head"</strong></li>
+        <li>Add optional comments</li>
+        <li>Form forwarded to QAMS Head</li>
+        <li>Department Head receives notification</li>
+    </ol>
+    
+    <h5>B. Reject Form</h5>
+    <ol>
+        <li>Click <strong>"Reject & Return"</strong></li>
+        <li>Enter detailed reason (minimum 10 characters)</li>
+        <li>Form returns to Department Head</li>
+        <li>Department Head will forward to teacher for correction</li>
+    </ol>
+    
+    <h3>How to Download PDF Receipt</h3>
+    <ol>
+        <li>After approving a form, click <strong>"Download Receipt"</strong></li>
+        <li>PDF opens in new tab with official approval document</li>
+        <li>Click "Print" or "Save as PDF" to download</li>
+    </ol>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-file-pdf" style="font-size: 48px;"></i>
+            <p><strong>PDF Receipt Example</strong></p>
+            <p>UNIVERSITY OF GHANA</p>
+            <p>QAMS Form - Final Approval Receipt</p>
+            <p>Form Number: QAMS-2026-001</p>
+            <p>✓ FINALLY APPROVED AND ARCHIVED</p>
+        </div>
+        <small>Figure 9: PDF Receipt</small>
+    </div>
+    
+    <h3>Filters</h3>
+    <p>Filter forms by:</p>
+    <ul>
+        <li>Faculty (your faculty only)</li>
+        <li>Department</li>
+        <li>Academic Year</li>
+        <li>Semester</li>
+        <li>Status (Pending, Rejected, Approved)</li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 6: QAMS Head Guide -->
+    <h1 id="qams-head">6. QAMS Head Guide</h1>
+    
+    <h3>Your Role</h3>
+    <p>As QAMS Head, you perform final review and archive approved forms.</p>
+    
+    <h3>Login Credentials</h3>
+    <ul>
+        <li><strong>Username</strong>: <code>grace.qams</code></li>
+        <li><strong>Password</strong>: <code>qamshead123</code> (default)</li>
+        <li><strong>Email</strong>: grace.qams@edu.gh</li>
+    </ul>
+    
+    <h3>QAMS Head Dashboard</h3>
+    
+    <h4>Personal Information</h4>
+    <p>Shows your name, designation, and employee ID</p>
+    
+    <h4>Pending Forms Table</h4>
+    <p>List of forms approved by Deans showing:</p>
+    <ul>
+        <li>Form Number</li>
+        <li>Dean Name</li>
+        <li>Teacher Name</li>
+        <li>Course Code and Title</li>
+        <li>Faculty</li>
+        <li>Department</li>
+        <li>Status</li>
+    </ul>
+    
+    <h3>How to Final Approve Forms</h3>
+    
+    <h4>Step 1: Review Form</h4>
+    <ol>
+        <li>Click <strong>"Review"</strong> on any pending form</li>
+        <li>Review complete approval chain:
+            <ul>
+                <li>Teacher submission details</li>
+                <li>Department Head approval</li>
+                <li>Dean verification</li>
+                <li>All QA data and PDF documents</li>
+                <li>Approval timeline</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h4>Step 2: Make Decision</h4>
+    
+    <h5>A. Approve & Archive</h5>
+    <ol>
+        <li>Click <strong>"Approve & Archive"</strong></li>
+        <li>Form is permanently stored in database</li>
+        <li>All parties receive final approval notification</li>
+        <li>Form status becomes "Approved"</li>
+        <li>PDF receipt available for download</li>
+    </ol>
+    
+    <h5>B. Reject</h5>
+    <ol>
+        <li>Click <strong>"Reject & Return to Dean"</strong></li>
+        <li>Enter detailed reason (minimum 10 characters)</li>
+        <li>Form returns to Dean (who will cascade down)</li>
+        <li>Rejection reason visible throughout approval chain</li>
+    </ol>
+    
+    <h3>How to Download Final Receipt</h3>
+    <ol>
+        <li>After final approval, click <strong>"Download Receipt"</strong></li>
+        <li>Official certified document opens in new tab</li>
+        <li>Save as PDF for records</li>
+    </ol>
+    
+    <h3>Filters</h3>
+    <p>Filter forms by:</p>
+    <ul>
+        <li>Faculty</li>
+        <li>Department</li>
+        <li>Academic Year</li>
+        <li>Semester</li>
+        <li>Status (Pending, Rejected, Approved)</li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 7: Administrator Guide -->
+    <h1 id="admin">7. Administrator Guide</h1>
+    
+    <h3>Your Role</h3>
+    <p>System Administrator manages all aspects of the platform including users, hierarchy, and system configuration.</p>
+    
+    <h3>Login Credentials</h3>
+    <ul>
+        <li><strong>Username</strong>: <code>admin</code></li>
+        <li><strong>Password</strong>: <code>admin123</code> (default)</li>
+        <li><strong>Email</strong>: admin@edu.gh</li>
+    </ul>
+    
+    <h3>Admin Dashboard</h3>
+    <p>The dashboard provides overview statistics:</p>
+    <ul>
+        <li>Total accounts by role (Teachers, Dept Heads, Deans, QAMS Heads)</li>
+        <li>Form submission statistics</li>
+        <li>Revert and approval rates with progress bars</li>
+        <li>Recent activities from approval chain</li>
+    </ul>
+    
+    <h3>Module 1: User Management</h3>
+    
+    <h4>Add New User</h4>
+    <ol>
+        <li>Click <strong>"Add New User"</strong></li>
+        <li>Fill in:
+            <ul>
+                <li><strong>Full Name</strong> (required)</li>
+                <li><strong>Username</strong> (required) - will become username@edu.gh</li>
+                <li><strong>Role</strong> (Teacher/Dept Head/Dean/QAMS Head/Admin)</li>
+                <li><strong>Employee ID</strong> (required)</li>
+                <li><strong>Faculty</strong> (for Dean, Teacher, Dept Head)</li>
+                <li><strong>Department</strong> (for Teacher, Dept Head)</li>
+            </ul>
+        </li>
+        <li>System generates initial password</li>
+        <li>User must change password on first login</li>
+    </ol>
+    
+    <h4>Edit User</h4>
+    <ul>
+        <li>Click <strong>pencil icon</strong> to edit user details</li>
+        <li>Update name, role, department, faculty as needed</li>
+        <li>Changes take effect immediately</li>
+    </ul>
+    
+    <h4>Reset Password</h4>
+    <ul>
+        <li>Click <strong>key icon</strong> to reset password</li>
+        <li>Enter new password or generate random</li>
+        <li>User must change on next login</li>
+    </ul>
+    
+    <h4>Activate/Deactivate User</h4>
+    <ul>
+        <li>Click <strong>person-x</strong> icon to deactivate user</li>
+        <li>Deactivated users cannot log in</li>
+        <li>Click <strong>person-check</strong> to reactivate</li>
+    </ul>
+    
+    <h3>Module 2: Hierarchy Configuration</h3>
+    
+    <h4>Purpose</h4>
+    <p>Define the reporting structure: Teacher → Department Head → Dean → QAMS Head</p>
+    
+    <h4>Add Hierarchy Mapping</h4>
+    <ol>
+        <li>Select <strong>Academic Year</strong></li>
+        <li>Select <strong>Teacher</strong> from dropdown</li>
+        <li>Select <strong>Department Head</strong> from dropdown</li>
+        <li>Select <strong>Dean</strong> from dropdown</li>
+        <li>Select <strong>QAMS Head</strong> from dropdown</li>
+        <li>Click <strong>"Save Mapping"</strong></li>
+    </ol>
+    
+    <h4>View Hierarchy</h4>
+    <ul>
+        <li>Visual tree shows complete reporting structure</li>
+        <li>Click delete icon to remove mapping</li>
+        <li>Filter by academic year</li>
+    </ul>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-diagram-3" style="font-size: 48px;"></i>
+            <p><strong>Hierarchy Tree Example</strong></p>
+            <p>QAMS Head: Dr. Grace Mensah</p>
+            <p>├── Dean: Prof. Kwame Asante</p>
+            <p>│   ├── Dept Head: Dr. Ama Serwah</p>
+            <p>│   │   ├── Teacher: John Doe</p>
+            <p>│   │   └── Teacher: Sarah Smith</p>
+        </div>
+        <small>Figure 10: Hierarchy Visualization</small>
+    </div>
+    
+    <h3>Module 3: Academic Configuration</h3>
+    
+    <h4>Manage Academic Years</h4>
+    <ul>
+        <li>Click <strong>"Add New Academic Year"</strong></li>
+        <li>Enter year name (e.g., 2026-27), start date, end date</li>
+        <li>Check "Set as current" to mark active year</li>
+        <li>Edit or delete existing years as needed</li>
+    </ul>
+    
+    <h4>Manage Semesters</h4>
+    <ul>
+        <li>Select year from dropdown</li>
+        <li>View semesters for that year</li>
+        <li>Click <strong>"Set Active"</strong> to mark current semester</li>
+        <li>Edit semester dates as needed</li>
+    </ul>
+    
+    <h4>Submission Deadlines</h4>
+    <ul>
+        <li>Click <strong>"Add New Deadline"</strong></li>
+        <li>Select form type, academic year, semester</li>
+        <li>Set deadline date and description</li>
+        <li>Delete expired deadlines as needed</li>
+    </ul>
+    
+    <h3>Module 4: Form Templates</h3>
+    
+    <h4>Create Template</h4>
+    <ol>
+        <li>Click <strong>"Create New Template"</strong></li>
+        <li>Enter template name and description</li>
+        <li>Add fields using field builder:
+            <ul>
+                <li>Text Input</li>
+                <li>Number</li>
+                <li>Dropdown</li>
+                <li>File Upload</li>
+                <li>Date Picker</li>
+                <li>Checkbox</li>
+                <li>Text Area</li>
+            </ul>
+        </li>
+        <li>Configure field properties (label, required, placeholder)</li>
+        <li>Set template version and status (Draft/Active/Archived)</li>
+        <li>Click <strong>"Save Template"</strong></li>
+    </ol>
+    
+    <h4>Publish Template</h4>
+    <ul>
+        <li>Set status to <strong>"Active"</strong> to make available to teachers</li>
+        <li>Teachers will see the updated form fields</li>
+        <li>Archived templates are hidden from teachers</li>
+    </ul>
+    
+    <div class="screenshot">
+        <div class="screenshot-placeholder">
+            <i class="bi bi-tools" style="font-size: 48px;"></i>
+            <p><strong>Form Field Builder</strong></p>
+            <p>[Text Input] [Number] [Dropdown] [File Upload]</p>
+            <p>Drag and drop fields to build form</p>
+        </div>
+        <small>Figure 11: Form Template Builder</small>
+    </div>
+    
+    <h3>Module 5: System Logs</h3>
+    
+    <h4>View Audit Trail</h4>
+    <ul>
+        <li>Complete history of all system actions</li>
+        <li>Filter by date range (7, 30, 90 days, all time)</li>
+        <li>Filter by user role (Teacher, Dept Head, Dean, QAMS Head, Admin)</li>
+        <li>Filter by action type (Submit, Approve, Reject, Archive)</li>
+        <li>Search by user name or form ID</li>
+        <li>Click any log row to view full details</li>
+    </ul>
+    
+    <h4>Export Logs</h4>
+    <ul>
+        <li>Click <strong>"Export as CSV"</strong> to download filtered logs</li>
+        <li>Open in Excel or other spreadsheet software</li>
+    </ul>
+    
+    <h4>Charts</h4>
+    <ul>
+        <li>Actions by Role - shows distribution of actions by role</li>
+        <li>Activity Timeline - shows daily activity for last 7 days</li>
+    </ul>
+    
+    <h3>Module 6: Backup Management</h3>
+    
+    <h4>Manual Backup</h4>
+    <ol>
+        <li>Click <strong>"Manual Backup Now"</strong></li>
+        <li>Wait for progress bar to complete</li>
+        <li>Backup saved to configured location</li>
+        <li>Recent backups listed in table</li>
+    </ol>
+    
+    <h4>Restore Backup</h4>
+    <ol>
+        <li>Find backup in recent backups list</li>
+        <li>Click <strong>"Restore"</strong></li>
+        <li>Confirm restoration (this will overwrite current data)</li>
+        <li>Wait for restoration to complete</li>
+    </ol>
+    
+    <h4>Integrity Check</h4>
+    <ol>
+        <li>Click <strong>"Run Integrity Check"</strong></li>
+        <li>System checks all database tables</li>
+        <li>Results shown with status (All OK or errors)</li>
+    </ol>
+    
+    <h4>Backup Configuration</h4>
+    <ul>
+        <li>Set backup frequency (Daily, Weekly, Custom)</li>
+        <li>Set retention policy (30, 60, 90 days, forever)</li>
+        <li>Choose backup location</li>
+        <li>Select options (include uploads, compress, encrypt)</li>
+        <li>Click <strong>"Save Configuration"</strong></li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 8: Common Tasks -->
+    <h1 id="common">8. Common Tasks</h1>
+    
+    <h3>Changing Password (All Users)</h3>
+    <ol>
+        <li>Click <strong>Settings</strong> (gear icon ⚙️)</li>
+        <li>Go to <strong>Security</strong> tab</li>
+        <li>Enter current password</li>
+        <li>Enter new password (8+ chars, letter + number)</li>
+        <li>Confirm new password</li>
+        <li>Click <strong>Update Password</strong></li>
+        <li>You'll be redirected to login with new password</li>
+    </ol>
+    
+    <h3>Using Filters (All Panels)</h3>
+    <ol>
+        <li>Select desired filters from dropdown menus</li>
+        <li>Click <strong>"Apply Filters"</strong></li>
+        <li>View filtered results</li>
+        <li>Click <strong>"Reset"</strong> to clear all filters</li>
+        <li>Filters are saved in browser for future visits</li>
+    </ol>
+    
+    <h3>Viewing Form Details (All Reviewers)</h3>
+    <ol>
+        <li>Click <strong>"View"</strong> button on any form</li>
+        <li>Review all information in modal window</li>
+        <li>Click PDF links to view uploaded documents in new tab</li>
+        <li>Click <strong>"Download Receipt"</strong> for final approval document</li>
+        <li>Close modal when done</li>
+    </ol>
+    
+    <h3>Managing Notifications (All Users)</h3>
+    <ol>
+        <li>Click <strong>bell icon 🔔</strong> to open notification panel</li>
+        <li>Click any notification to mark as read and view related form</li>
+        <li>Click <strong>"Mark all read"</strong> to clear all unread</li>
+        <li>Red badge shows number of unread notifications</li>
+        <li>Notifications auto-refresh every 30 seconds</li>
+    </ol>
+    
+    <h3>Searching (Admin Only)</h3>
+    <ol>
+        <li>Enter search term in search box</li>
+        <li>Search looks in user names, emails, form IDs, comments</li>
+        <li>Results filter automatically</li>
+        <li>Clear search box to show all results</li>
+    </ol>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 9: Troubleshooting -->
+    <h1 id="troubleshooting">9. Troubleshooting</h1>
+    
+    <h3>Login Issues</h3>
+    <table>
+        <tr><th>Problem</th><th>Solution</th></tr>
+        <tr><td>Wrong password</td><td>Click "Forgot Password" to contact administrator</td></tr>
+        <tr><td>Account locked</td><td>Contact administrator to activate account</td></tr>
+        <tr><td>Wrong role panel</td><td>Verify you're using correct credentials for that role</td></tr>
+        <tr><td>Page not loading</td><td>Check if XAMPP is running, refresh page</td></tr>
+    </table>
+    
+    <h3>Form Submission Issues</h3>
+    <table>
+        <tr><th>Problem</th><th>Solution</th></tr>
+        <tr><td>PDF upload fails</td><td>Ensure file is PDF format and less than 10MB</td></tr>
+        <tr><td>Cannot edit form</td><td>Check if form is pending approval (locked until rejected)</td></tr>
+        <tr><td>Form rejected</td><td>Read rejection reason, make corrections, resubmit</td></tr>
+        <tr><td>Missing fields</td><td>All required fields must be filled (marked with *)</td></tr>
+    </table>
+    
+    <h3>Performance Issues</h3>
+    <table>
+        <tr><th>Problem</th><th>Solution</th></tr>
+        <tr><td>Slow loading</td><td>Clear browser cache, check internet connection</td></tr>
+        <tr><td>Page not refreshing</td><td>Press F5 or use browser refresh button</td></tr>
+        <tr><td>Connection error</td><td>Ensure XAMPP is running, check server status</td></tr>
+        <tr><td>Data not updating</td><td>Wait for auto-refresh (30 seconds) or refresh manually</td></tr>
+    </table>
+    
+    <h3>Notification Issues</h3>
+    <table>
+        <tr><th>Problem</th><th>Solution</th></tr>
+        <tr><td>Not receiving notifications</td><td>Check notification panel, ensure bell is clicked</td></tr>
+        <tr><td>Badge not updating</td><td>Refresh page, notifications auto-refresh every 30 seconds</td></tr>
+        <tr><td>Notifications not loading</td><td>Check if XAMPP is running, check browser console for errors</td></tr>
+    </table>
+    
+    <h3>Browser Compatibility</h3>
+    <p>Recommended browsers for best experience:</p>
+    <ul>
+        <li>Google Chrome (version 90+) - Best performance</li>
+        <li>Mozilla Firefox (version 88+) - Good</li>
+        <li>Microsoft Edge (version 90+) - Good</li>
+        <li>Safari (version 14+) - Good</li>
+    </ul>
+    
+    <h3>Contact Support</h3>
+    <ul>
+        <li><strong>System Administrator</strong>: [admin@edu.gh]</li>
+        <li><strong>IT Support</strong>: [itsupport@edu.gh]</li>
+        <li><strong>QAMS Office</strong>: [qams@edu.gh]</li>
+        <li><strong>Phone</strong>: +233 (0) 302 213 820</li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <!-- Section 10: FAQs -->
+    <h1 id="faq">10. Frequently Asked Questions</h1>
+    
+    <h3>General Questions</h3>
+    
+    <p><strong>Q: How do I know if my form was approved?</strong><br>
+    A: You'll receive a notification (bell icon turns red) and the status on your dashboard will change from "Pending" to "Approved".</p>
+    
+    <p><strong>Q: Can I edit a form after submission?</strong><br>
+    A: No, once submitted, forms are locked until rejected for corrections. You must wait for the reviewer to revert it.</p>
+    
+    <p><strong>Q: What happens if my form is rejected?</strong><br>
+    A: You'll receive the rejection reason and can edit and resubmit the corrected form.</p>
+    
+    <p><strong>Q: How long does the approval process take?</strong><br>
+    A: Depends on Department Head, Dean, and QAMS Head review times. You'll be notified at each step.</p>
+    
+    <p><strong>Q: Can I view archived forms?</strong><br>
+    A: Yes, approved forms are visible in the QAMS Head archive section. Teachers can view their approved forms.</p>
+    
+    <h3>Technical Questions</h3>
+    
+    <p><strong>Q: What if I forget my password?</strong><br>
+    A: Click "Forgot Password" to request reset from administrator, or contact your system administrator directly.</p>
+    
+    <p><strong>Q: How do I change my password?</strong><br>
+    A: Go to Settings → Security tab → Enter current and new password → Update Password.</p>
+    
+    <p><strong>Q: What file formats are accepted for uploads?</strong><br>
+    A: Only PDF files, maximum size 10MB. Files must be clear and readable.</p>
+    
+    <p><strong>Q: Can I see who approved my form?</strong><br>
+    A: Yes, the approval chain in the form details shows all approvers and dates.</p>
+    
+    <p><strong>Q: How do I know if I have pending tasks?</strong><br>
+    A: Check your dashboard for pending forms and the notification bell for alerts.</p>
+    
+    <h3>Workflow Questions</h3>
+    
+    <p><strong>Q: What is the complete approval flow?</strong><br>
+    A: Teacher submits → Department Head approves → Dean approves → QAMS Head final approves → Archive</p>
+    
+    <p><strong>Q: What happens at each rejection level?</strong><br>
+    A: 
+    <ul>
+        <li>Dept Head reject → Teacher corrects and resubmits</li>
+        <li>Dean reject → Dept Head reviews and forwards to Teacher</li>
+        <li>QAMS Head reject → Dean reviews and cascades down</li>
+    </ul>
+    </p>
+    
+    <p><strong>Q: Can I request a resubmission?</strong><br>
+    A: Yes, reviewers can "Revert" forms with a reason, allowing the submitter to correct and resubmit.</p>
+    
+    <p><strong>Q: What happens to rejected forms?</strong><br>
+    A: Rejected forms remain in the system with the rejection reason visible, allowing correction and resubmission.</p>
+    
+    <h3>Admin Questions</h3>
+    
+    <p><strong>Q: How do I add a new user?</strong><br>
+    A: Go to Admin → User Management → Add New User → Fill details → Save.</p>
+    
+    <p><strong>Q: How do I set up the hierarchy?</strong><br>
+    A: Go to Admin → Hierarchy Configuration → Add mapping for each teacher.</p>
+    
+    <p><strong>Q: How do I create a new academic year?</strong><br>
+    A: Go to Admin → Academic Configuration → Add New Academic Year → Fill dates.</p>
+    
+    <p><strong>Q: How often should I backup the database?</strong><br>
+    A: Daily backups are recommended. Configure automatic backups in Backup Management.</p>
+
+    <div class="footer">
+        <p>QAMS User Manual - Version 1.0</p>
+        <p>© 2026 University of Ghana by SANGARE SALIF - Quality Assurance Office</p>
+        <p>Last Updated: March 2026</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Panel | QAMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light">
+    <!-- Main Container -->
+    <div class="container py-4">
+        <!-- Header with Settings Icon -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-primary">Teacher's Panel – QAMS</h2>
+            <div>
+                   <!-- NOTIFICATION BELL -->
+                <button class="btn btn-outline-secondary btn-sm me-2 position-relative" onclick="toggleNotifications()">
+                    <i class="bi bi-bell"></i>
+                    <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 10px;">0</span>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm me-2" onclick="openSettings()">
+                    <i class="bi bi-gear-fill"></i> Settings
+                </button>
+                <a href="../Login/index.html" class="btn btn-outline-danger btn-sm me-2">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+                <a href="teacher_QAMS-form.html" class="btn btn-primary btn-sm">
+                    <i class="bi bi-journal-text"></i> QAMS Form
+                </a>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="settingsModalLabel">
+                            <i class="bi bi-gear-fill me-2"></i>Settings & Profile
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">
+                                    <i class="bi bi-person-circle me-2"></i>Profile
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab">
+                                    <i class="bi bi-shield-lock me-2"></i>Security
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="filters-tab" data-bs-toggle="tab" data-bs-target="#filters" type="button" role="tab">
+                                    <i class="bi bi-funnel me-2"></i>Filters
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="settingsTabContent">
+                            <!-- Profile Tab -->
+                            <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Full Name</label>
+                                        <input type="text" class="form-control" id="profileName" value="John Doe" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Email Address</label>
+                                        <input type="email" class="form-control" id="profileEmail" value="john.teacher@edu.gh" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Employee ID</label>
+                                        <input type="text" class="form-control" id="profileEmpId" value="EMP-10293" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Designation</label>
+                                        <input type="text" class="form-control" id="profileDesignation" value="Senior Lecturer" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Department</label>
+                                        <input type="text" class="form-control" id="profileDepartment" value="Computer Science" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Faculty</label>
+                                        <input type="text" class="form-control" id="profileFaculty" value="Faculty of Computing" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security Tab (Change Password) -->
+<div class="tab-pane fade" id="security" role="tabpanel">
+    <form id="changePasswordForm">
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Current Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="currentPassword" required>
+                <span class="input-group-text bg-white toggle-password" style="cursor:pointer;">
+                    <i class="bi bi-eye-slash"></i>
+                </span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">New Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="newPassword" required>
+                <span class="input-group-text bg-white toggle-password" style="cursor:pointer;">
+                    <i class="bi bi-eye-slash"></i>
+                </span>
+            </div>
+            <div class="form-text">Minimum 8 characters with at least one number and one letter</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Confirm New Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="confirmPassword" required>
+                <span class="input-group-text bg-white toggle-password" style="cursor:pointer;">
+                    <i class="bi bi-eye-slash"></i>
+                </span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-check-circle me-2"></i>Update Password
+        </button>
+    </form>
+</div>
+
+                            <!-- Filters Tab (Teacher: Semester, Academic Year) -->
+                            <div class="tab-pane fade" id="filters" role="tabpanel">
+                                <form id="filterSettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Academic Year</label>
+                                        <select class="form-select" id="filterAcademicYear">
+                                            <option value="">Select Academic Year</option>
+                                            <option value="2014-15">2014-15</option>
+                                            <option value="2015-16">2015-16</option>
+                                            <option value="2016-17">2016-17</option>
+                                            <option value="2017-18">2017-18</option>
+                                            <option value="2018-19">2018-19</option>
+                                            <option value="2019-20">2019-20</option>
+                                            <option value="2020-21">2020-21</option>
+                                            <option value="2021-22">2021-22</option>
+                                            <option value="2022-23">2022-23</option>
+                                            <option value="2023-24">2023-24</option>
+                                            <option value="2024-25">2024-25</option>
+                                            <option value="2025-26" selected>2025-26</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Semester</label>
+                                        <select class="form-select" id="filterSemester">
+                                            <option value="">Select Semester</option>
+                                            <option value="1">Semester 1</option>
+                                            <option value="2">Semester 2</option>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                            <option value="5" selected>Semester 5</option>
+                                            <option value="6">Semester 6</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-save me-2"></i>Save Filter Preferences
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- ========= NOTIFICATION PANEL ========== -->
+<div id="notificationPanel" style="display: none; position: fixed; top: 70px; right: 20px; width: 380px; z-index: 9999;">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white py-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mb-0"><i class="bi bi-bell me-2"></i>Notifications</h6>
+                <button class="btn btn-sm btn-link text-white p-0" onclick="markAllRead()">Mark all read</button>
+            </div>
+        </div>
+        <div class="card-body p-0" id="notificationList" style="max-height: 400px; overflow-y: auto;">
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary spinner-border-sm"></div>
+                <p class="text-muted mt-2 mb-0">Loading notifications...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Filter Bar (Quick Access) -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-3">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <label class="fw-semibold"><i class="bi bi-funnel me-1"></i>Academic Year:</label>
+                <select class="form-select form-select-sm mt-1" id="quickAcademicYear" onchange="applyFilters()">
+                    <option value="all">All Years</option>
+                    <option value="2025-26" selected>2025-26</option>
+                    <option value="2024-25">2024-25</option>
+                    <option value="2023-24">2023-24</option>
+                    <option value="2022-23">2022-23</option>
+                    <option value="2021-22">2021-22</option>
+                    <option value="2020-21">2020-21</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-semibold"><i class="bi bi-sort-numeric-up me-1"></i>Semester:</label>
+                <select class="form-select form-select-sm mt-1" id="quickSemester" onchange="applyFilters()">
+                    <option value="all">All Semesters</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5" selected>Semester 5</option>
+                    <option value="6">Semester 6</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-sm mt-4" onclick="applyFilters()">
+                    <i class="bi bi-search me-1"></i>Apply Filters
+                </button>
+            </div>
+            <div class="col-md-3 text-end">
+                <span class="badge bg-info" id="activeFilters">Active: 2025-26 | Sem 5</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Teacher Info Card -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-person-fill me-2"></i>Teacher Information</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="text-muted small">Teacher Name</label>
+                        <p class="fw-semibold" id="teacherName">Loading...</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted small">Faculty Name</label>
+                        <p class="fw-semibold" id="facultyName">Loading...</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted small">Program</label>
+                        <p class="fw-semibold" id="programName">Loading...</p>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-muted small">Semester</label>
+                        <p class="fw-semibold" id="semester">Loading...</p>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-muted small">Academic Year</label>
+                        <p class="fw-semibold" id="year">Loading...</p>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-muted small">Designation</label>
+                        <p class="fw-semibold" id="designation">Loading...</p>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-muted small">Employee ID</label>
+                        <p class="fw-semibold" id="empId">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Section -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-journal-bookmark-fill me-2"></i>Courses Assigned</h5>
+                    <span class="badge bg-secondary" id="courseCount">Loading...</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>#</th>
+                                <th>Course Code</th>
+                                <th>Course Title</th>
+                                <th>Credits</th>
+                                <th>Section</th>
+                                <th>QAMS Form</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseTableBody">
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <br>Loading courses...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Save Button -->
+                <div class="text-end mt-4">
+                    <button class="btn btn-success btn-lg px-4" onclick="saveChanges()">
+                        <i class="bi bi-save2 me-2"></i>Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Initialize Bootstrap modal
+    let settingsModal;
+    let refreshInterval;
+    
+    // Store loaded data
+    let teacherData = null;
+    let coursesData = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+        
+        // Load saved filter preferences
+        loadFilterPreferences();
+        
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const input = this.closest('.input-group').querySelector('input');
+                input.type = input.type === 'password' ? 'text' : 'password';
+                this.classList.toggle('bi-eye');
+                this.classList.toggle('bi-eye-slash');
+            });
+        });
+        
+        // Load teacher data from API
+        loadTeacherData();
+        
+        // Start auto-refresh every 30 seconds
+        startAutoRefresh();
+    });
+    
+    // Clean up when leaving the page
+    window.addEventListener('beforeunload', function() {
+        stopAutoRefresh();
+    });
+    
+    function startAutoRefresh() {
+        refreshInterval = setInterval(function() {
+            console.log('Refreshing course status...');
+            loadTeacherData();
+        }, 30000);
+    }
+    
+    function stopAutoRefresh() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+    }
+    
+   async function loadTeacherData() {
+    try {
+        // Show loading state
+        document.getElementById('teacherName').textContent = 'Loading...';
+        
+        // Get current filter values
+        const academicYear = document.getElementById('quickAcademicYear')?.value || 'all';
+        const semester = document.getElementById('quickSemester')?.value || 'all';
+        
+        // Build URL with filter parameters
+        let url = '/qams/Teacher/api/get-data.php';
+        const params = [];
+        if (academicYear && academicYear !== 'all') {
+            params.push(`academic_year=${encodeURIComponent(academicYear)}`);
+        }
+        if (semester && semester !== 'all') {
+            params.push(`semester=${encodeURIComponent(semester)}`);
+        }
+        if (params.length > 0) {
+            url += '?' + params.join('&');
+        }
+        
+        const response = await fetch(url);
+        const result = await response.json();
+        
+        if (result.success) {
+            teacherData = result.data.teacher;
+            coursesData = result.data.courses;
+            const currentYear = result.data.currentYear;
+            const currentSemester = result.data.currentSemester;
+            
+            // Populate teacher info
+            document.getElementById('teacherName').textContent = teacherData.full_name || 'N/A';
+            document.getElementById('facultyName').textContent = teacherData.faculty_name || 'N/A';
+            document.getElementById('programName').textContent = 'BSc. Information Technology';
+            document.getElementById('semester').textContent = currentSemester.semester_number + 'th Semester';
+            document.getElementById('year').textContent = currentYear.year_name;
+            document.getElementById('designation').textContent = teacherData.designation || 'Lecturer';
+            document.getElementById('empId').textContent = teacherData.employee_id || 'N/A';
+            
+            // Profile modal data
+            document.getElementById('profileName').value = teacherData.full_name || '';
+            document.getElementById('profileEmail').value = teacherData.email || '';
+            document.getElementById('profileEmpId').value = teacherData.employee_id || '';
+            document.getElementById('profileDesignation').value = teacherData.designation || '';
+            document.getElementById('profileDepartment').value = teacherData.department_name || '';
+            document.getElementById('profileFaculty').value = teacherData.faculty_name || '';
+            
+            // Update course count
+            document.getElementById('courseCount').textContent = coursesData.length + ' courses';
+            
+            // Populate courses table
+            populateCoursesTable();
+            
+            // Update active filters display with actual filter values
+            updateActiveFiltersDisplay();
+        } else {
+            console.error('Failed to load teacher data:', result.message);
+            document.getElementById('teacherName').textContent = 'Error loading data';
+            document.getElementById('courseTableBody').innerHTML = '常<td colspan="8" class="text-center text-danger">Failed to load courses</td>常';
+        }
+   } catch (error) {
+    console.error('Fetch error:', error);
+    console.log('Request URL:', url);
+    document.getElementById('teacherName').textContent = 'Connection error';
+    document.getElementById('courseTableBody').innerHTML = `<tr><td colspan="8" class="text-center text-danger">
+        Connection error: ${error.message}<br>URL: ${url}<br>Check browser console for more details.
+    </td></tr>`;
+}
+}
+
+function updateActiveFiltersDisplay() {
+    const academicYear = document.getElementById('quickAcademicYear')?.value || 'all';
+    const semester = document.getElementById('quickSemester')?.value || 'all';
+    const activeSpan = document.getElementById('activeFilters');
+    
+    let displayText = '';
+    if (academicYear !== 'all' && academicYear) {
+        displayText += academicYear;
+    } else {
+        displayText += 'All Years';
+    }
+    
+    displayText += ' | ';
+    
+    if (semester !== 'all' && semester) {
+        displayText += 'Sem ' + semester;
+    } else {
+        displayText += 'All Semesters';
+    }
+    
+    if (activeSpan) {
+        activeSpan.textContent = `Active: ${displayText}`;
+    }
+}
+    
+    function getFormStatusInfo(status) {
+        const statusMap = {
+            'pending_dept': {
+                badge: '<span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i> Pending Dept Head</span>', canEdit: false,
+                color: 'warning'
+            },
+            'pending_dean': {
+                badge: '<span class="badge bg-info"><i class="bi bi-arrow-right-circle me-1"></i> Pending Dean</span>', canEdit: false,
+                color: 'info'
+            },
+            'pending_qams': {
+                badge: '<span class="badge bg-primary"><i class="bi bi-shield-check me-1"></i> Pending QAMS Head</span>', canEdit: false,
+                color: 'primary'
+            },
+            'approved': {
+                badge: '<span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i> Approved & Archived</span>', canEdit: false,
+                color: 'success'
+            },
+            'rejected': {
+                badge: '<span class="badge bg-danger"><i class="bi bi-x-circle-fill me-1"></i> Rejected - Needs Correction</span>', canEdit: true,
+                color: 'danger'
+            },
+            'archived': {
+                badge: '<span class="badge bg-secondary"><i class="bi bi-archive me-1"></i> Archived</span>',
+                color: 'secondary'
+            },
+            'draft': {
+                badge: '<span class="badge bg-light text-dark"><i class="bi bi-pencil me-1"></i> Draft - Not Submitted</span>', canEdit: true,
+                color: 'light'
+            }
+        };
+        
+        if (status && statusMap[status]) {
+            return statusMap[status];
+        }
+        
+        return {
+            badge: '<span class="badge bg-secondary"><i class="bi bi-clock me-1"></i> Not Started</span>', canEdit: true,
+            color: 'secondary'
+        };
+    }
+    
+    function formatDate(dateString) {
+        if (!dateString) return '-';
+        const date = new Date(dateString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+    
+    function populateCoursesTable() {
+        const tbody = document.getElementById('courseTableBody');
+        
+        if (!coursesData || coursesData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4">No courses assigned for this semester</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = coursesData.map((course, index) => {
+            const statusInfo = getFormStatusInfo(course.form_status);
+            
+            // Determine button text and action
+            let buttonText = 'Open Form';
+            let buttonClass = 'btn-outline-primary';
+            let buttonDisabled = false;
+            
+            if (course.form_status) {
+                if (course.form_status === 'pending_dept' || course.form_status === 'pending_dean' || course.form_status === 'pending_qams') {
+                    buttonText = 'View Form';
+                    buttonClass = 'btn-outline-secondary';
+                    buttonDisabled = true;
+                } else if (course.form_status === 'approved') {
+                    buttonText = 'View Archive';
+                    buttonClass = 'btn-outline-success';
+                } else if (course.form_status === 'rejected') {
+                    buttonText = 'Edit & Resubmit';
+                    buttonClass = 'btn-outline-warning';
+                } else if (course.form_status === 'draft') {
+                    buttonText = 'Continue Editing';
+                    buttonClass = 'btn-outline-primary';
+                }
+            }
+            
+            // Get last updated date from most recent action
+            let lastUpdated = '-';
+            if (course.submitted_at) {
+                lastUpdated = formatDate(course.submitted_at);
+            } else if (course.form_status === 'rejected' && course.rejection_reason) {
+                lastUpdated = 'Rejected';
+            }
+            
+            // Get section (default to 'A' if not set)
+            const section = course.section || 'A';
+            
+            return `
+                <tr>
+                    <td class="text-center">${index + 1}</td>
+                    <td><strong>${escapeHtml(course.course_code)}</strong></td>
+                    <td>${escapeHtml(course.course_title)}</td>
+                    <td class="text-center">${course.credit_hours}</td>
+                    <td class="text-center"><span class="badge bg-secondary">${escapeHtml(section)}</span></td>
+                    <td class="text-center">
+                        <button class="btn ${buttonClass} btn-sm" 
+                                onclick="openQAMSForm('${escapeHtml(course.course_code)}', ${course.id}, ${course.form_id || 0}, '${course.form_status || ''}')"
+                                ${buttonDisabled ? 'disabled' : ''}>
+                            ${buttonText}
+                        </button>
+                    </td>
+                    <td>${statusInfo.badge}</td>
+                    <td class="text-muted small">${lastUpdated}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function getApprovalLevel(status) {
+        const levels = {
+            'pending_dept': 'Department Head',
+            'pending_dean': 'Dean',
+            'pending_qams': 'QAMS Head'
+        };
+        return levels[status] || 'the approver';
+    }
+    
+    function openQAMSForm(courseCode, courseId, formId, formStatus) {
+        // Store course info for the form page
+        sessionStorage.setItem('currentCourseCode', courseCode);
+        sessionStorage.setItem('currentCourseId', courseId);
+        sessionStorage.setItem('currentFormId', formId || 0);
+        sessionStorage.setItem('currentFormStatus', formStatus || '');
+        
+        // If form is approved, show archive view instead of edit
+        if (formStatus === 'approved' || formStatus === 'archived') {
+            alert('📦 This form has been approved and archived.\n\nYou can view it in the QAMS Head Archive section.');
+            return;
+        }
+        
+        // If form is pending approval, show message
+        if (formStatus === 'pending_dept' || formStatus === 'pending_dean' || formStatus === 'pending_qams') {
+            alert(`⏳ This form is currently pending approval from ${getApprovalLevel(formStatus)}.\n\nYou cannot edit it until it is returned for correction.`);
+            return;
+        }
+        
+        window.location.href = "teacher_QAMS-form.html";
+    }
+    
+    function openSettings() {
+        settingsModal.show();
+    }
+    
+    // Change password form handler
+document.getElementById('changePasswordForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const currentPwd = document.getElementById('currentPassword').value;
+    const newPwd = document.getElementById('newPassword').value;
+    const confirmPwd = document.getElementById('confirmPassword').value;
+    
+    // Validation
+    if (newPwd.length < 8) {
+        alert('❌ Password must be at least 8 characters long');
+        return;
+    }
+    
+    if (!/[A-Za-z]/.test(newPwd) || !/[0-9]/.test(newPwd)) {
+        alert('❌ Password must contain at least one letter and one number');
+        return;
+    }
+    
+    if (newPwd !== confirmPwd) {
+        alert('❌ New passwords do not match');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Updating...';
+    
+    try {
+        const response = await fetch('/qams/api/change-password.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                current: currentPwd, 
+                new: newPwd, 
+                confirm: confirmPwd 
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('✅ ' + data.message + '\n\nPlease login again with your new password.');
+            
+            // Clear session storage and redirect to login
+            sessionStorage.clear();
+            
+            // Optional: Add a small delay before redirect
+            setTimeout(() => {
+                window.location.href = '../Login/index.html';
+            }, 1500);
+        } else {
+            alert('❌ ' + data.message);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Connection error. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+});
+    
+    // Filter settings form handler
+    document.getElementById('filterSettingsForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const academicYear = document.getElementById('filterAcademicYear').value;
+        const semester = document.getElementById('filterSemester').value;
+        
+        sessionStorage.setItem('preferredAcademicYear', academicYear);
+        sessionStorage.setItem('preferredSemester', semester);
+        
+        document.getElementById('quickAcademicYear').value = academicYear;
+        document.getElementById('quickSemester').value = semester;
+        
+        updateActiveFilters();
+        
+        alert('✅ Filter preferences saved!');
+        settingsModal.hide();
+        applyFilters();
+    });
+    
+    function loadFilterPreferences() {
+    const academicYear = sessionStorage.getItem('preferredAcademicYear') || '2025-26';
+    const semester = sessionStorage.getItem('preferredSemester') || '5';
+    
+    const filterYear = document.getElementById('filterAcademicYear');
+    const filterSem = document.getElementById('filterSemester');
+    const quickYear = document.getElementById('quickAcademicYear');
+    const quickSem = document.getElementById('quickSemester');
+    
+    if (filterYear) filterYear.value = academicYear;
+    if (filterSem) filterSem.value = semester;
+    if (quickYear) quickYear.value = academicYear;
+    if (quickSem) quickSem.value = semester;
+    
+    updateActiveFiltersDisplay();
+}
+    
+    function updateActiveFilters() {
+        const academicYear = document.getElementById('quickAcademicYear')?.value || '2025-26';
+        const semester = document.getElementById('quickSemester')?.value || '5';
+        const activeSpan = document.getElementById('activeFilters');
+        if (activeSpan) activeSpan.textContent = `Active: ${academicYear} | Sem ${semester}`;
+    }
+    
+   function applyFilters() {
+    const academicYear = document.getElementById('quickAcademicYear')?.value;
+    const semester = document.getElementById('quickSemester')?.value;
+    
+    // Save to session storage
+    if (academicYear) sessionStorage.setItem('preferredAcademicYear', academicYear);
+    if (semester) sessionStorage.setItem('preferredSemester', semester);
+    
+    updateActiveFiltersDisplay();
+    
+    // Reload data with new filters
+    loadTeacherData();
+    
+    alert(`📊 Filters applied: Academic Year ${academicYear === 'all' ? 'All Years' : academicYear}, Semester ${semester === 'all' ? 'All Semesters' : semester}`);
+}
+    
+    function saveChanges() {
+        alert("✅ All changes saved successfully!");
+    }
+
+    // Toggle notification panel
+    function toggleNotifications() {
+        const panel = document.getElementById('notificationPanel');
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            loadNotifications();
+        } else {
+            panel.style.display = 'none';
+        }
+    }
+    
+    // Load notifications from API
+    async function loadNotifications() {
+        try {
+            const response = await fetch('/qams/api/notifications.php?limit=10');
+            const data = await response.json();
+            
+            if (data.success) {
+                updateNotificationBadge(data.unread_count);
+                renderNotificationList(data.notifications);
+            }
+        } catch (error) {
+            console.error('Error loading notifications:', error);
+        }
+    }
+    
+    // Update the red badge number
+    function updateNotificationBadge(count) {
+        const badge = document.getElementById('notificationBadge');
+        if (badge) {
+            if (count > 0) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+    
+    // Display notifications in the panel
+    function renderNotificationList(notifications) {
+        const container = document.getElementById('notificationList');
+        
+        if (!notifications || notifications.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                    <p class="text-muted mt-2 mb-0">No notifications</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = notifications.map(notif => `
+            <div class="notification-item p-3 border-bottom ${notif.is_read ? '' : 'bg-light'}" 
+                 onclick="markRead(${notif.id}, '${notif.type}', ${notif.form_id || 'null'})" 
+                 style="cursor: pointer;">
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i class="bi ${getNotificationIcon(notif.type)} fs-5 ${getNotificationColor(notif.type)}"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                            <strong class="small">${escapeHtml(notif.title)}</strong>
+                            <small class="text-muted">${getTimeAgo(notif.created_at)}</small>
+                        </div>
+                        <p class="mb-0 small text-muted">${escapeHtml(notif.message.substring(0, 80))}${notif.message.length > 80 ? '...' : ''}</p>
+                        ${notif.form_id ? `<small class="text-primary">Form #${notif.form_id}</small>` : ''}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Get icon based on notification type
+    function getNotificationIcon(type) {
+        const icons = {
+            'form_submitted': 'bi-file-earmark-check',
+            'approval_needed': 'bi-clock-history',
+            'approved': 'bi-check-circle-fill',
+            'rejected': 'bi-x-circle-fill',
+            'archived': 'bi-archive'
+        };
+        return icons[type] || 'bi-info-circle';
+    }
+    
+    // Get color based on notification type
+    function getNotificationColor(type) {
+        const colors = {
+            'form_submitted': 'text-primary',
+            'approval_needed': 'text-warning',
+            'approved': 'text-success',
+            'rejected': 'text-danger',
+            'archived': 'text-info'
+        };
+        return colors[type] || 'text-secondary';
+    }
+    
+    // Mark a notification as read
+    async function markRead(notificationId, type, formId) {
+        try {
+            await fetch('/qams/api/notifications.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: notificationId })
+            });
+            
+            // Refresh list
+            loadNotifications();
+            
+            // Close panel
+            document.getElementById('notificationPanel').style.display = 'none';
+            
+            // If it's an approval notification, redirect
+            if (type === 'approval_needed' && formId) {
+                const userRole = sessionStorage.getItem('userRole');
+                if (userRole === 'teacher') {
+                    // Stay on teacher panel
+                } else if (userRole === 'dept_head') {
+                    window.location.href = `/qams/Dept_Head/dept_head-panel.html?form_id=${formId}`;
+                } else if (userRole === 'dean') {
+                    window.location.href = `/qams/Dean/dean-verification.html?form_id=${formId}`;
+                }
+            }
+        } catch (error) {
+            console.error('Error marking read:', error);
+        }
+    }
+    
+    // Mark all notifications as read
+    async function markAllRead() {
+        try {
+            await fetch('/qams/api/notifications.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: 'all' })
+            });
+            loadNotifications();
+        } catch (error) {
+            console.error('Error marking all read:', error);
+        }
+    }
+    
+    // Format time ago
+    function getTimeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
+        
+        if (seconds < 60) return 'just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days}d ago`;
+        return date.toLocaleDateString();
+    }
+    
+    // Escape HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // Load notifications on page load
+    loadNotifications();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadNotifications, 30000);
+    
+    // Close notification panel when clicking outside
+    document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notificationPanel');
+        const bell = document.querySelector('.btn-outline-secondary.btn-sm.position-relative');
+        if (panel && bell && !panel.contains(event.target) && !bell.contains(event.target)) {
+            panel.style.display = 'none';
+        }
+    });
+    </script>
+</body>
+</html>

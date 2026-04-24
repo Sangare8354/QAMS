@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QAMS Head Quick Reference Card</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            width: 550px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: #2c3e50;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 24px; margin-bottom: 5px; }
+        .header p { font-size: 12px; opacity: 0.9; }
+        .content { padding: 20px; }
+        .section { margin-bottom: 20px; border-bottom: 1px solid #e9ecef; padding-bottom: 15px; }
+        .section-title { 
+            font-weight: bold; 
+            color: #fd7e14; 
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step { margin: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
+        .step-number { 
+            min-width: 24px; 
+            height: 24px; 
+            background: #fd7e14; 
+            color: white; 
+            border-radius: 50%; 
+            text-align: center; 
+            line-height: 24px; 
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .step-text { flex: 1; font-size: 13px; }
+        .badge-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-align: center; flex: 1; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-approved { background: #d4edda; color: #155724; }
+        .badge-archive { background: #cfe2ff; color: #004085; }
+        .badge-info { background: #cfe2ff; color: #004085; }
+        .archive-section { background: #e8f0fe; border-radius: 12px; padding: 12px; margin-top: 10px; }
+        .footer {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-size: 10px;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        .icon { font-size: 18px; }
+        .stamp { 
+            background: #d4edda; 
+            color: #155724; 
+            padding: 8px; 
+            border-radius: 8px; 
+            text-align: center; 
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>📦 QAMS HEAD</h1>
+            <p>Quick Reference Card - QAMS System</p>
+        </div>
+        <div class="content">
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🏆</span> FINAL APPROVAL
+                </div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Open <strong>QAMS_head-panel.html</strong> and log in</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Click <strong>"Review"</strong> on pending form</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Review complete approval chain</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Verify all teacher, Dept Head, Dean approvals</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-text">Click <strong>"Approve & Archive"</strong> for final storage</div>
+                </div>
+                <div class="stamp">
+                    ✓ FINALLY APPROVED AND ARCHIVED ✓
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📦</span> ARCHIVE PROCESS
+                </div>
+                <div class="step">
+                    <div class="step-number">💾</div>
+                    <div class="step-text">Form permanently stored in database</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">📧</div>
+                    <div class="step-text">All parties receive final approval notification</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">📄</div>
+                    <div class="step-text">PDF receipt available for download</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">⬅️</span> REJECT CASCADE
+                </div>
+                <div class="step">
+                    <div class="step-number">❌</div>
+                    <div class="step-text">Click <strong>"Reject & Return to Dean"</strong></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">📝</div>
+                    <div class="step-text">Enter detailed reason (min 10 chars)</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">⬇️</div>
+                    <div class="step-text">Dean receives → forwards to Dept Head → to Teacher</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🔍</span> FILTER OPTIONS
+                </div>
+                <div class="badge-grid">
+                    <div class="badge badge-info">🏛️ Faculty</div>
+                    <div class="badge badge-info">🏢 Department</div>
+                    <div class="badge badge-info">📅 Academic Year</div>
+                    <div class="badge badge-info">📖 Semester</div>
+                    <div class="badge badge-info">📊 Status</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📊</span> STATUS MEANINGS
+                </div>
+                <div class="badge-grid">
+                    <div class="badge badge-pending">Pending Review</div>
+                    <div class="badge badge-approved">Approved & Archived</div>
+                    <div class="badge badge-rejected">Rejected</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📄</span> PDF RECEIPT
+                </div>
+                <div class="step">
+                    <div class="step-number">📑</div>
+                    <div class="step-text">Click <strong>"Download Receipt"</strong> after final approval</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">✅</div>
+                    <div class="step-text">Official certified document with all approvals</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <strong>Login:</strong> grace.qams@edu.gh | <strong>Password:</strong> qamshead123<br>
+            Support: qams@edu.gh | 🔄 Auto-refresh every 30 seconds
+        </div>
+    </div>
+</body>
+</html>

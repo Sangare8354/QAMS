@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dean Verification Panel - QAMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-4">
+    <span class="navbar-brand fw-bold">
+        <i class="bi bi-clipboard-check me-2"></i>QAMS – Dean Verification Panel
+    </span>
+    <div class="ms-auto d-flex gap-2">
+        <button class="btn btn-outline-light btn-sm" onclick="showHelp()">
+            <i class="bi bi-question-circle"></i> Help
+        </button>
+        <a href="dean-panel.html" class="btn btn-outline-light btn-sm me-2">
+            <i class="bi bi-arrow-left"></i> Back to Panel
+        </a>
+        <a href="../Login/index.html" class="btn btn-danger btn-sm">
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- Dean Information Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white fw-bold">
+            <i class="bi bi-person-badge me-2"></i>Dean Information
+        </div>
+        <div class="card-body row g-3">
+            <div class="col-md-4">
+                <label class="fw-semibold">Name:</label>
+                <input type="text" class="form-control" id="deanName" value="Loading..." readonly>
+            </div>
+            <div class="col-md-4">
+                <label class="fw-semibold">Faculty Name:</label>
+                <input type="text" class="form-control" id="deanFaculty" value="Loading..." readonly>
+            </div>
+            <div class="col-md-4">
+                <label class="fw-semibold">Program:</label>
+                <input type="text" class="form-control" id="deanProgram" value="Quality Assurance Management" readonly>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-semibold">Semester:</label>
+                <input type="text" class="form-control" id="deanSemester" value="Loading..." readonly>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-semibold">Year:</label>
+                <input type="text" class="form-control" id="deanYear" value="Loading..." readonly>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-semibold">Designation:</label>
+                <input type="text" class="form-control" value="Dean" readonly>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-semibold">Employee ID:</label>
+                <input type="text" class="form-control" id="deanEmpId" value="Loading..." readonly>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Details Header -->
+    <div class="card shadow-sm border-0 mb-4" id="formHeader" style="display: none;">
+        <div class="card-body p-3 bg-light">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-0" id="formNumberDisplay">
+                        <i class="bi bi-file-text me-2 text-primary"></i>
+                        <span id="formNumber">Form Number</span>
+                    </h5>
+                    <small class="text-muted" id="formStatusBadge"></small>
+                </div>
+                <div class="col-md-4 text-end">
+                    <span class="badge bg-info" id="currentStatus">Status</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IQAC Verification Form -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white fw-bold">
+            <i class="bi bi-list-check me-2"></i>QAMS Form Verification
+        </div>
+        <div class="card-body">
+            <div id="formContent">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted mt-2">Loading form details...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="dean-panel.html" class="btn btn-secondary btn-lg">
+            <i class="bi bi-arrow-left me-2"></i>Back to Panel
+        </a>
+        <div id="actionButtons">
+            <button class="btn btn-info btn-lg me-2" onclick="downloadPDF()">
+            <i class="bi bi-file-pdf me-2"></i>Download Receipt
+            </button>
+            <button class="btn btn-warning btn-lg me-2" onclick="rejectForm()" id="rejectBtn">
+                <i class="bi bi-x-circle me-2"></i>Reject & Return
+            </button>
+                <i class="bi bi-file-pdf me-2"></i>Download Receipt
+            </button>
+            <button class="btn btn-success btn-lg" onclick="approveForm()" id="approveBtn">
+                <i class="bi bi-check-circle me-2"></i>Approve & Forward to QAMS Head
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let currentFormId = null;
+    let currentFormData = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadDeanInfo();
+        
+        // Check URL for form_id parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const formId = urlParams.get('form_id');
+        
+        if (formId) {
+            currentFormId = formId;
+            loadFormDetails(formId);
+        } else {
+            showError('No form selected. Please go back to the Dean Panel.');
+            document.getElementById('actionButtons').style.display = 'none';
+        }
+    });
+    
+    async function loadDeanInfo() {
+        try {
+            const response = await fetch('/qams/api/get-user-data.php');
+            const data = await response.json();
+            
+            if (data.success) {
+                const user = data.data.profile;
+                document.getElementById('deanName').value = user.full_name || 'Prof. Kwame Asante';
+                document.getElementById('deanFaculty').value = user.faculty_name || 'Faculty of Computing';
+                document.getElementById('deanSemester').value = data.data.current_semester || 'Semester 5';
+                document.getElementById('deanYear').value = data.data.current_year || '2025-26';
+                document.getElementById('deanEmpId').value = user.employee_id || 'DEAN-UCT-0001';
+            }
+        } catch (error) {
+            console.error('Error loading dean info:', error);
+        }
+    }
+    
+    async function loadFormDetails(formId) {
+        try {
+            const response = await fetch(`/qams/api/dean/view-form.php?id=${formId}`);
+            const data = await response.json();
+
+            if (data.success) {
+                currentFormData = data.form;
+                renderFormDetails(data.form);
+                document.getElementById('formHeader').style.display = 'block';
+            } else {
+                showError('❌ ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showError('❌ Error loading form details');
+        }
+    }
+    
+    function renderFormDetails(form) {
+        // Update header
+        document.getElementById('formNumber').textContent = form.form_number;
+        
+        let statusHtml = '';
+        if (form.current_status === 'pending_dean') {
+            statusHtml = '<span class="badge bg-warning text-dark">Pending Dean Approval</span>';
+        } else if (form.current_status === 'rejected') {
+            statusHtml = '<span class="badge bg-danger">Rejected</span>';
+        } else {
+            statusHtml = `<span class="badge bg-secondary">${form.current_status}</span>`;
+        }
+        document.getElementById('currentStatus').innerHTML = statusHtml;
+        
+        // ========== ADD REJECTION CASCADE DISPLAY ==========
+        let rejectionHtml = '';
+        if (form.rejection_reason && (form.current_status === 'rejected' || form.current_status === 'pending_dean')) {
+            let rejectionLevelText = '';
+            if (form.rejection_level === 'qams') rejectionLevelText = 'QAMS Head';
+            else if (form.rejection_level === 'dean') rejectionLevelText = 'Dean';
+            else if (form.rejection_level === 'dept') rejectionLevelText = 'Department Head';
+            
+            rejectionHtml = `
+                <div class="alert alert-warning mb-4">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>⚠️ Previously Rejected</strong><br>
+                    <strong>Rejected by:</strong> ${rejectionLevelText}<br>
+                    <strong>Reason:</strong> ${escapeHtml(form.rejection_reason)}<br>
+                    <small class="text-muted">Please review the rejection reason and take appropriate action.</small>
+                </div>
+            `;
+        }
+        // ========== END REJECTION CASCADE DISPLAY ==========
+        
+        // Build PDF links
+        let attendanceHtml = '';
+        let midtermHtml = '';
+        let finalHtml = '';
+        
+        if (form.attendance_url && form.attendance_url !== '#') {
+            attendanceHtml = `
+                <div class="col-md-4 mb-2">
+                    <a href="${form.attendance_url}" target="_blank" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-file-pdf-fill text-danger me-2"></i> Attendance Sheet
+                        <small class="d-block text-muted">Click to view PDF</small>
+                    </a>
+                </div>
+            `;
+        } else {
+            attendanceHtml = `
+                <div class="col-md-4 mb-2">
+                    <button class="btn btn-outline-secondary w-100" disabled>
+                        <i class="bi bi-file-pdf-fill me-2"></i> Attendance Sheet
+                        <small class="d-block">Not uploaded</small>
+                    </button>
+                </div>
+            `;
+        }
+        
+        if (form.midterm_url && form.midterm_url !== '#') {
+            midtermHtml = `
+                <div class="col-md-4 mb-2">
+                    <a href="${form.midterm_url}" target="_blank" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-file-pdf-fill text-danger me-2"></i> Midterm Question
+                        <small class="d-block text-muted">Click to view PDF</small>
+                    </a>
+                </div>
+            `;
+        } else {
+            midtermHtml = `
+                <div class="col-md-4 mb-2">
+                    <button class="btn btn-outline-secondary w-100" disabled>
+                        <i class="bi bi-file-pdf-fill me-2"></i> Midterm Question
+                        <small class="d-block">Not uploaded</small>
+                    </button>
+                </div>
+            `;
+        }
+        
+        if (form.final_url && form.final_url !== '#') {
+            finalHtml = `
+                <div class="col-md-4 mb-2">
+                    <a href="${form.final_url}" target="_blank" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-file-pdf-fill text-danger me-2"></i> Final Question
+                        <small class="d-block text-muted">Click to view PDF</small>
+                    </a>
+                </div>
+            `;
+        } else {
+            finalHtml = `
+                <div class="col-md-4 mb-2">
+                    <button class="btn btn-outline-secondary w-100" disabled>
+                        <i class="bi bi-file-pdf-fill me-2"></i> Final Question
+                        <small class="d-block">Not uploaded</small>
+                    </button>
+                </div>
+            `;
+        }
+        
+        const formHtml = `
+            ${rejectionHtml}
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="fw-semibold">Teacher Information</label>
+                    <div class="bg-light p-3 rounded">
+                        <p class="mb-1"><strong>Name:</strong> ${escapeHtml(form.teacher_name)}</p>
+                        <p class="mb-1"><strong>Email:</strong> ${escapeHtml(form.teacher_email)}</p>
+                        <p class="mb-1"><strong>Employee ID:</strong> ${escapeHtml(form.teacher_emp_id || 'N/A')}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-semibold">Department Head</label>
+                    <div class="bg-light p-3 rounded">
+                        <p class="mb-1"><strong>Name:</strong> ${escapeHtml(form.dept_head_name || 'N/A')}</p>
+                        <p class="mb-1"><strong>Email:</strong> ${escapeHtml(form.dept_head_email || 'N/A')}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="fw-semibold">Course Information</label>
+                    <div class="bg-light p-3 rounded">
+                        <p class="mb-1"><strong>Code:</strong> ${escapeHtml(form.course_code)}</p>
+                        <p class="mb-1"><strong>Title:</strong> ${escapeHtml(form.course_title)}</p>
+                        <p class="mb-1"><strong>Credits:</strong> ${form.credit_hours || 'N/A'}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-semibold">Academic Info</label>
+                    <div class="bg-light p-3 rounded">
+                        <p class="mb-1"><strong>Year:</strong> ${escapeHtml(form.year_name)}</p>
+                        <p class="mb-1"><strong>Semester:</strong> ${form.semester_number}</p>
+                        <p class="mb-1"><strong>Section:</strong> ${escapeHtml(form.section || 'A')}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-semibold">Department</label>
+                    <div class="bg-light p-3 rounded">
+                        <p class="mb-1"><strong>Department:</strong> ${escapeHtml(form.department_name)}</p>
+                        <p class="mb-1"><strong>Faculty:</strong> ${escapeHtml(form.faculty_name)}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <h6 class="fw-bold text-primary mb-3"><i class="bi bi-clipboard-data me-2"></i>Quality Assurance Data</h6>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="fw-semibold">Zoom Link:</label>
+                    <p><a href="${escapeHtml(form.zoom_link)}" target="_blank">${escapeHtml(form.zoom_link)}</a></p>
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-semibold">Classes Taken:</label>
+                    <p>${form.classes_taken || 0}</p>
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-semibold">Class Tests:</label>
+                    <p>${form.class_tests || 0}</p>
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-semibold">Midterm Conducted:</label>
+                    <p>${form.midterm_conducted ? 'Yes' : 'No'}</p>
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-semibold">Final Conducted:</label>
+                    <p>${form.final_conducted ? 'Yes' : 'No'}</p>
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-semibold">Assignments:</label>
+                    <p>${form.assignments || 0}</p>
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-semibold">Presentations:</label>
+                    <p>${form.presentations || 0}</p>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <h6 class="fw-bold text-primary mb-3"><i class="bi bi-file-earmark-pdf me-2"></i>Uploaded Documents</h6>
+            <div class="row">
+                ${attendanceHtml}
+                ${midtermHtml}
+                ${finalHtml}
+            </div>
+            
+            <hr>
+            
+            <h6 class="fw-bold text-primary mb-3"><i class="bi bi-info-circle me-2"></i>Submission Information</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="fw-semibold">Submitted Date:</label>
+                    <p class="bg-light p-2 rounded">${new Date(form.submitted_at).toLocaleString()}</p>
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-semibold">Department Head Approved:</label>
+                    <p class="bg-light p-2 rounded">${form.dept_approved_at ? new Date(form.dept_approved_at).toLocaleString() : 'Not yet'}</p>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('formContent').innerHTML = formHtml;
+    }
+    
+    async function approveForm() {
+        if (!currentFormId || !currentFormData) {
+            showToast('❌ No form selected');
+            return;
+        }
+        
+        const comments = prompt('Optional comments (e.g., "Approved, forwarded to QAMS Head"):');
+        
+        if (confirm(`✅ Approve form ${currentFormData.form_number} and forward to QAMS Head?`)) {
+            showLoading(true);
+            
+            try {
+                const response = await fetch('/qams/api/dean/approve.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        form_id: currentFormId, 
+                        comments: comments || 'Approved by Dean' 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast('✅ ' + data.message);
+                    // Disable buttons after approval
+                    document.getElementById('approveBtn').disabled = true;
+                    document.getElementById('rejectBtn').disabled = true;
+                    document.getElementById('approveBtn').innerHTML = '<i class="bi bi-check-circle me-2"></i>Approved';
+                    document.getElementById('approveBtn').classList.replace('btn-success', 'btn-secondary');
+                    document.getElementById('rejectBtn').classList.add('disabled');
+                    
+                    // Update status badge
+                    document.getElementById('currentStatus').innerHTML = '<span class="badge bg-success">Forwarded to QAMS Head</span>';
+                    
+                    // Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'dean-panel.html';
+                    }, 2000);
+                } else {
+                    showToast('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Connection error');
+            } finally {
+                showLoading(false);
+            }
+        }
+    }
+    
+    async function rejectForm() {
+        if (!currentFormId || !currentFormData) {
+            showToast('❌ No form selected');
+            return;
+        }
+        
+        const reason = prompt('Please provide reason for rejection (at least 10 characters):');
+        
+        if (!reason) return;
+        
+        if (reason.length < 10) {
+            showToast('❌ Please provide a detailed reason (at least 10 characters)');
+            return;
+        }
+        
+        if (confirm(`⚠️ Reject form ${currentFormData.form_number} and return to Department Head?`)) {
+            showLoading(true);
+            
+            try {
+                const response = await fetch('/qams/api/dean/revert.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        form_id: currentFormId, 
+                        reason: reason 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast('✅ ' + data.message);
+                    // Disable buttons after rejection
+                    document.getElementById('approveBtn').disabled = true;
+                    document.getElementById('rejectBtn').disabled = true;
+                    document.getElementById('rejectBtn').innerHTML = '<i class="bi bi-x-circle me-2"></i>Rejected';
+                    document.getElementById('rejectBtn').classList.replace('btn-warning', 'btn-secondary');
+                    document.getElementById('approveBtn').classList.add('disabled');
+                    
+                    // Update status badge
+                    document.getElementById('currentStatus').innerHTML = '<span class="badge bg-danger">Rejected - Returned to Dept Head</span>';
+                    
+                    // Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'dean-panel.html';
+                    }, 2000);
+                } else {
+                    showToast('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Connection error');
+            } finally {
+                showLoading(false);
+            }
+        }
+    }
+    
+    function showLoading(show) {
+        const approveBtn = document.getElementById('approveBtn');
+        const rejectBtn = document.getElementById('rejectBtn');
+        if (show) {
+            if (approveBtn) approveBtn.disabled = true;
+            if (rejectBtn) rejectBtn.disabled = true;
+        } else {
+            // Don't re-enable if already processed
+            if (approveBtn && !approveBtn.classList.contains('disabled')) approveBtn.disabled = false;
+            if (rejectBtn && !rejectBtn.classList.contains('disabled')) rejectBtn.disabled = false;
+        }
+    }
+    
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed bottom-0 end-0 p-3 m-3 bg-dark text-white rounded shadow';
+        toast.style.zIndex = '9999';
+        toast.style.maxWidth = '350px';
+        toast.innerHTML = `<i class="bi bi-info-circle me-2"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+    
+    function showError(message) {
+        document.getElementById('formContent').innerHTML = `
+            <div class="alert alert-danger text-center py-5">
+                <i class="bi bi-exclamation-triangle-fill fs-1"></i>
+                <p class="mt-3">${message}</p>
+                <a href="dean-panel.html" class="btn btn-primary">Return to Dean Panel</a>
+            </div>
+        `;
+        document.getElementById('actionButtons').style.display = 'none';
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function showHelp() {
+        alert("🆘 DEAN VERIFICATION HELP:\n\n" +
+            "📋 This page shows a single QAMS form waiting for your approval\n" +
+            "📄 View all details including teacher info, QA data, and PDF documents\n" +
+            "⚠️ If the form was previously rejected, you'll see the rejection reason at the top\n" +
+            "✅ Click APPROVE to forward to QAMS Head\n" +
+            "❌ Click REJECT to return to Department Head with correction reason\n" +
+            "🔙 Use Back button to return to the list");
+    }
+    function downloadPDF() {
+    if (currentFormId) {
+        window.open(`/qams/api/generate-pdf.php?id=${currentFormId}`, '_blank');
+    } else {
+        showToast('❌ No form selected');
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAMS Head Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header with Settings Icon -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">
+                <i class="bi bi-archive-fill text-primary me-2"></i>QAMS Head Panel
+            </h2>
+            <div>
+                <button class="btn btn-light btn-sm me-2 position-relative" onclick="toggleNotifications()">
+                    <i class="bi bi-bell"></i>
+           <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 10px;">0</span>
+                </button>
+                <button class="btn btn-outline-primary me-2" onclick="openSettings()">
+                    <i class="bi bi-gear-fill"></i> Settings
+                </button>
+                <button class="btn btn-outline-info me-2" onclick="showHelp()">
+                    <i class="bi bi-question-circle me-1"></i>Help Line
+                </button>
+                <a href="../Login/index.html" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right me-1"></i>Sign Out
+                </a>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="settingsModalLabel">
+                            <i class="bi bi-gear-fill me-2"></i>Settings & Profile
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                            <li class="nav-item"><button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"><i class="bi bi-person-circle me-2"></i>Profile</button></li>
+                            <li class="nav-item"><button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security"><i class="bi bi-shield-lock me-2"></i>Security</button></li>
+                            <li class="nav-item"><button class="nav-link" id="filters-tab" data-bs-toggle="tab" data-bs-target="#filters"><i class="bi bi-funnel me-2"></i>Filters</button></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Profile Tab -->
+                            <div class="tab-pane fade show active" id="profile">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Full Name</label><input type="text" class="form-control" id="profileName" readonly></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Email Address</label><input type="email" class="form-control" id="profileEmail" readonly></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Employee ID</label><input type="text" class="form-control" id="profileEmpId" readonly></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Designation</label><input type="text" class="form-control" id="profileDesignation" value="QAMS Head (IQAC)" readonly></div>
+                                </div>
+                            </div>
+
+                            <!-- Security Tab -->
+                            <div class="tab-pane fade" id="security">
+                                <form id="changePasswordForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Current Password</label>
+                                        <div class="input-group"><input type="password" class="form-control" id="currentPassword" required><span class="input-group-text bg-white toggle-password"><i class="bi bi-eye-slash"></i></span></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">New Password</label>
+                                        <div class="input-group"><input type="password" class="form-control" id="newPassword" required><span class="input-group-text bg-white toggle-password"><i class="bi bi-eye-slash"></i></span></div>
+                                        <div class="form-text">Minimum 8 characters with at least one number and one letter</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Confirm New Password</label>
+                                        <div class="input-group"><input type="password" class="form-control" id="confirmPassword" required><span class="input-group-text bg-white toggle-password"><i class="bi bi-eye-slash"></i></span></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-check-circle me-2"></i>Update Password</button>
+                                </form>
+                            </div>
+
+                            <!-- Filters Tab -->
+                            <div class="tab-pane fade" id="filters">
+                                <form id="filterSettingsForm">
+                                    <div class="mb-3"><label class="form-label fw-semibold">Faculty</label><select class="form-select" id="filterFaculty"><option value="">All Faculties</option><option value="Faculty of Computing">Faculty of Computing</option><option value="Faculty of Engineering">Faculty of Engineering</option><option value="Faculty of Business & Management">Faculty of Business</option><option value="Faculty of Health Sciences">Health Sciences</option></select></div>
+                                    <div class="mb-3"><label class="form-label fw-semibold">Department</label><select class="form-select" id="filterDepartment"><option value="">All Departments</option><option value="Computer Science">Computer Science</option><option value="Networks & Security">Networks & Security</option><option value="Software Engineering">Software Engineering</option><option value="Telecommunications Engineering">Telecommunications Engineering</option><option value="Information Systems">Information Systems</option></select></div>
+                                    <div class="mb-3"><label class="form-label fw-semibold">Academic Year</label><select class="form-select" id="filterAcademicYear"><option value="">All Years</option><option value="2014-15">2014-15</option><option value="2015-16">2015-16</option><option value="2016-17">2016-17</option><option value="2017-18">2017-18</option><option value="2018-19">2018-19</option><option value="2019-20">2019-20</option><option value="2020-21">2020-21</option><option value="2021-22">2021-22</option><option value="2022-23">2022-23</option><option value="2023-24">2023-24</option><option value="2024-25">2024-25</option><option value="2025-26">2025-26</option></select></div>
+                                    <div class="mb-3"><label class="form-label fw-semibold">Semester</label><select class="form-select" id="filterSemester"><option value="">All Semesters</option><option value="1">Semester 1</option><option value="2">Semester 2</option><option value="3">Semester 3</option><option value="4">Semester 4</option><option value="5">Semester 5</option><option value="6">Semester 6</option></select></div>
+                                    <div class="mb-3"><label class="form-label fw-semibold">Status</label><select class="form-select" id="filterStatus"><option value="">All Status</option><option value="pending_qams">Pending Review</option><option value="rejected">Rejected</option><option value="approved">Approved & Archived</option></select></div>
+                                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Save Filter Preferences</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-2"><label class="fw-semibold">Faculty:</label><select class="form-select form-select-sm mt-1" id="quickFaculty" onchange="applyFilters()"><option value="">All Faculties</option><option value="Faculty of Computing">Faculty of Computing</option><option value="Faculty of Engineering">Faculty of Engineering</option><option value="Faculty of Business & Management">Faculty of Business</option><option value="Faculty of Health Sciences">Health Sciences</option></select></div>
+                    <div class="col-md-2"><label class="fw-semibold">Department:</label><select class="form-select form-select-sm mt-1" id="quickDepartment" onchange="applyFilters()"><option value="">All Departments</option><option value="Computer Science">Computer Science</option><option value="Networks & Security">Networks & Security</option><option value="Software Engineering">Software Engineering</option><option value="Telecommunications Engineering">Telecom Eng</option><option value="Information Systems">Info Systems</option></select></div>
+                    <div class="col-md-2"><label class="fw-semibold">Academic Year:</label><select class="form-select form-select-sm mt-1" id="quickAcademicYear" onchange="applyFilters()"><option value="">All Years</option><option value="2025-26">2025-26</option><option value="2024-25">2024-25</option><option value="2023-24">2023-24</option></select></div>
+                    <div class="col-md-2"><label class="fw-semibold">Semester:</label><select class="form-select form-select-sm mt-1" id="quickSemester" onchange="applyFilters()"><option value="">All Semesters</option><option value="1">Sem 1</option><option value="2">Sem 2</option><option value="3">Sem 3</option><option value="4">Sem 4</option><option value="5">Sem 5</option><option value="6">Sem 6</option></select></div>
+                    <div class="col-md-2"><label class="fw-semibold">Status:</label><select class="form-select form-select-sm mt-1" id="quickStatus" onchange="applyFilters()"><option value="">All Status</option><option value="pending_qams">Pending Review</option><option value="rejected">Rejected</option><option value="approved">Approved</option></select></div>
+                    <div class="col-md-2 text-end"><button class="btn btn-outline-secondary btn-sm mt-4" onclick="resetFilters()"><i class="bi bi-arrow-repeat me-1"></i>Reset</button><span class="badge bg-info ms-2" id="activeFilters">All Filters</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QAMS Head Information -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white fw-bold"><i class="bi bi-person-badge me-2"></i>QAMS Head Information</div>
+            <div class="card-body row g-3">
+                <div class="col-md-4"><label class="form-label fw-bold">Name:</label><input type="text" class="form-control" id="qamsName" readonly></div>
+                <div class="col-md-4"><label class="form-label fw-bold">Faculty Name:</label><input type="text" class="form-control" id="qamsFaculty" value="All Faculties (University-wide)" readonly></div>
+                <div class="col-md-4"><label class="form-label fw-bold">Program Name:</label><input type="text" class="form-control" value="Quality Assurance Management System" readonly></div>
+                <div class="col-md-3"><label class="form-label fw-bold">Semester:</label><input type="text" class="form-control" id="qamsSemester" readonly></div>
+                <div class="col-md-3"><label class="form-label fw-bold">Year:</label><input type="text" class="form-control" id="qamsYear" readonly></div>
+                <div class="col-md-3"><label class="form-label fw-bold">Designation:</label><input type="text" class="form-control" value="QAMS Head (IQAC)" readonly></div>
+                <div class="col-md-3"><label class="form-label fw-bold">Employee ID:</label><input type="text" class="form-control" id="qamsEmpId" readonly></div>
+            </div>
+        </div>
+
+        <!-- Dean Submissions Table -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-secondary text-white fw-bold"><i class="bi bi-inbox me-2"></i>Dean Submissions (Final Review)</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="fw-semibold text-black">
+                            <tr><th>#</th><th>Form Number</th><th>Dean Name</th><th>Teacher</th><th>Course</th><th>Faculty</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="submissionsTable"><tr><td colspan="8" class="text-center py-4"><div class="spinner-border text-primary"></div><br>Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let settingsModal, refreshInterval;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+            loadFilterPreferences();
+            loadUserData();
+            loadPendingForms();
+            refreshInterval = setInterval(loadPendingForms, 30000);
+            document.querySelectorAll('.toggle-password').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const input = this.closest('.input-group').querySelector('input');
+                    input.type = input.type === 'password' ? 'text' : 'password';
+                    this.classList.toggle('bi-eye');
+                    this.classList.toggle('bi-eye-slash');
+                });
+            });
+        });
+
+        async function loadUserData() {
+            try {
+                const response = await fetch('/qams/api/get-user-data.php');
+                const data = await response.json();
+                if (data.success) {
+                    const user = data.data.profile;
+                    document.getElementById('qamsName').value = user.full_name || 'Dr. Grace Mensah';
+                    document.getElementById('qamsEmpId').value = user.employee_id || 'QAMS-UCT-0001';
+                    document.getElementById('qamsSemester').value = data.data.current_semester || 'Semester 5';
+                    document.getElementById('qamsYear').value = data.data.current_year || '2025-26';
+                    document.getElementById('profileName').value = user.full_name || '';
+                    document.getElementById('profileEmail').value = user.email || '';
+                    document.getElementById('profileEmpId').value = user.employee_id || '';
+                }
+            } catch (error) { console.error('Error loading user data:', error); }
+        }
+
+        async function loadPendingForms() {
+            const faculty = document.getElementById('quickFaculty')?.value || '';
+            const department = document.getElementById('quickDepartment')?.value || '';
+            const year = document.getElementById('quickAcademicYear')?.value || '';
+            const semester = document.getElementById('quickSemester')?.value || '';
+            const status = document.getElementById('quickStatus')?.value || '';
+            
+            let url = '/qams/api/qams_head/pending.php?';
+            const params = [];
+            if (faculty) params.push(`faculty=${encodeURIComponent(faculty)}`);
+            if (department) params.push(`department=${encodeURIComponent(department)}`);
+            if (year) params.push(`academic_year=${encodeURIComponent(year)}`);
+            if (semester) params.push(`semester=${encodeURIComponent(semester)}`);
+            if (status) params.push(`status=${encodeURIComponent(status)}`);
+            url += params.join('&');
+            if (params.length === 0) url = '/qams/api/qams_head/pending.php';
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.success) {
+                    renderSubmissionsTable(data);
+                    updateActiveFiltersDisplay(faculty, department, year, semester, status);
+                } else { showToast('❌ ' + data.message); }
+            } catch (error) { showToast('❌ Connection error'); }
+        }
+
+        function renderSubmissionsTable(data) {
+            const tbody = document.getElementById('submissionsTable');
+            if (!data.forms || data.forms.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4"><i class="bi bi-inbox fs-1 text-muted"></i><p class="text-muted mt-2">No pending submissions</p></td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.forms.map((form, idx) => {
+                const isPending = form.current_status === 'pending_qams';
+                let statusBadge = '';
+                if (form.current_status === 'pending_qams') statusBadge = '<span class="badge bg-warning text-dark">Pending Review</span>';
+                else if (form.current_status === 'rejected') statusBadge = '<span class="badge bg-danger">Rejected</span>';
+                else if (form.current_status === 'approved') statusBadge = '<span class="badge bg-success">Approved & Archived</span>';
+                else statusBadge = `<span class="badge bg-secondary">${form.current_status}</span>`;
+                return `<tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${escapeHtml(form.form_number)}</strong></td>
+                    <td>${escapeHtml(form.dean_name)}</td>
+                    <td>${escapeHtml(form.teacher_name)}</td>
+                    <td>${escapeHtml(form.course_code)}<br><small>${escapeHtml(form.course_title)}</small></td>
+                    <td>${escapeHtml(form.faculty_name)}<br><small>${escapeHtml(form.department_name)}</small></td>
+                    <td>${statusBadge}</td>
+                    <td>${isPending ? `<button class="btn btn-primary btn-sm me-1" onclick="goToVerification(${form.form_id})"><i class="bi bi-eye"></i> Review</button>
+                                    <button class="btn btn-warning btn-sm" onclick="revertForm(${form.form_id})"><i class="bi bi-arrow-counterclockwise"></i> Revert</button>` : 
+                                    `<button class="btn btn-secondary btn-sm" disabled>Processed</button>`}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function goToVerification(formId) { window.location.href = `QAMS_head-verification.html?form_id=${formId}`; }
+
+        async function revertForm(formId) {
+            const reason = prompt('Please provide reason for revert (at least 10 characters):');
+            if (!reason || reason.length < 10) { showToast('❌ Please provide a detailed reason'); return; }
+            if (confirm('⚠️ Revert this form to Dean?')) {
+                try {
+                    const response = await fetch('/qams/api/qams_head/revert.php', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ form_id: formId, reason: reason })
+                    });
+                    const data = await response.json();
+                    if (data.success) { showToast('✅ ' + data.message); loadPendingForms(); }
+                    else { showToast('❌ ' + data.message); }
+                } catch (error) { showToast('❌ Connection error'); }
+            }
+        }
+
+        function updateActiveFiltersDisplay(faculty, dept, year, sem, status) {
+            const parts = [];
+            if (faculty) parts.push(faculty.substring(0, 15));
+            if (dept) parts.push(dept);
+            if (year) parts.push(year);
+            if (sem) parts.push(`Sem ${sem}`);
+            if (status) parts.push(status === 'pending_qams' ? 'Pending' : status === 'approved' ? 'Approved' : status);
+            const span = document.getElementById('activeFilters');
+            if (span) { span.textContent = parts.length ? parts.join(' | ') : 'All Filters'; span.className = parts.length ? 'badge bg-success' : 'badge bg-info'; }
+        }
+
+        function applyFilters() {
+            const faculty = document.getElementById('quickFaculty')?.value || '';
+            const dept = document.getElementById('quickDepartment')?.value || '';
+            const year = document.getElementById('quickAcademicYear')?.value || '';
+            const sem = document.getElementById('quickSemester')?.value || '';
+            const status = document.getElementById('quickStatus')?.value || '';
+            sessionStorage.setItem('qamsFaculty', faculty); sessionStorage.setItem('qamsDepartment', dept);
+            sessionStorage.setItem('qamsYear', year); sessionStorage.setItem('qamsSemester', sem);
+            sessionStorage.setItem('qamsStatus', status);
+            loadPendingForms();
+        }
+
+        function resetFilters() {
+            document.getElementById('quickFaculty').value = ''; document.getElementById('quickDepartment').value = '';
+            document.getElementById('quickAcademicYear').value = ''; document.getElementById('quickSemester').value = '';
+            document.getElementById('quickStatus').value = '';
+            sessionStorage.removeItem('qamsFaculty'); sessionStorage.removeItem('qamsDepartment');
+            sessionStorage.removeItem('qamsYear'); sessionStorage.removeItem('qamsSemester');
+            sessionStorage.removeItem('qamsStatus');
+            loadPendingForms(); showToast('🔄 Filters reset');
+        }
+
+        function loadFilterPreferences() {
+            const faculty = sessionStorage.getItem('qamsFaculty') || ''; const dept = sessionStorage.getItem('qamsDepartment') || '';
+            const year = sessionStorage.getItem('qamsYear') || ''; const sem = sessionStorage.getItem('qamsSemester') || '';
+            const status = sessionStorage.getItem('qamsStatus') || '';
+            if (faculty) document.getElementById('quickFaculty').value = faculty;
+            if (dept) document.getElementById('quickDepartment').value = dept;
+            if (year) document.getElementById('quickAcademicYear').value = year;
+            if (sem) document.getElementById('quickSemester').value = sem;
+            if (status) document.getElementById('quickStatus').value = status;
+            document.getElementById('filterFaculty').value = faculty; document.getElementById('filterDepartment').value = dept;
+            document.getElementById('filterAcademicYear').value = year; document.getElementById('filterSemester').value = sem;
+            document.getElementById('filterStatus').value = status;
+        }
+
+        function openSettings() { settingsModal.show(); }
+        function showToast(msg) { const toast = document.createElement('div'); toast.className = 'position-fixed bottom-0 end-0 p-3 m-3 bg-dark text-white rounded shadow'; toast.style.zIndex = '9999'; toast.innerHTML = `<i class="bi bi-info-circle me-2"></i>${msg}`; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+        document.getElementById('changePasswordForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const current = document.getElementById('currentPassword').value, newPwd = document.getElementById('newPassword').value, confirm = document.getElementById('confirmPassword').value;
+            if (newPwd.length < 8 || !/[A-Za-z]/.test(newPwd) || !/[0-9]/.test(newPwd) || newPwd !== confirm) { alert('❌ Password requirements not met'); return; }
+            const response = await fetch('/qams/api/change-password.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ current: current, new: newPwd, confirm: confirm }) });
+            const data = await response.json();
+            alert(data.success ? '✅ ' + data.message : '❌ ' + data.message);
+            if (data.success) { this.reset(); settingsModal.hide(); }
+        });
+
+        document.getElementById('filterSettingsForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            sessionStorage.setItem('qamsFaculty', document.getElementById('filterFaculty').value);
+            sessionStorage.setItem('qamsDepartment', document.getElementById('filterDepartment').value);
+            sessionStorage.setItem('qamsYear', document.getElementById('filterAcademicYear').value);
+            sessionStorage.setItem('qamsSemester', document.getElementById('filterSemester').value);
+            sessionStorage.setItem('qamsStatus', document.getElementById('filterStatus').value);
+            loadFilterPreferences(); settingsModal.hide(); applyFilters();
+        });
+
+        function showHelp() { alert("🆘 QAMS HEAD PANEL HELP:\n\n👁️ REVIEW - Go to verification panel to review and approve\n🔄 REVERT - Send back to Dean with reason\n⚙️ SETTINGS - Profile, password, filters"); }
+    
+    // Toggle notification panel
+    function toggleNotifications() {
+        const panel = document.getElementById('notificationPanel');
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            loadNotifications();
+        } else {
+            panel.style.display = 'none';
+        }
+    }
+    
+    // Load notifications from API
+    async function loadNotifications() {
+        try {
+            const response = await fetch('/qams/api/notifications.php?limit=10');
+            const data = await response.json();
+            
+            if (data.success) {
+                updateNotificationBadge(data.unread_count);
+                renderNotificationList(data.notifications);
+            }
+        } catch (error) {
+            console.error('Error loading notifications:', error);
+        }
+    }
+    
+    // Update the red badge number
+    function updateNotificationBadge(count) {
+        const badge = document.getElementById('notificationBadge');
+        if (badge) {
+            if (count > 0) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+    
+    // Display notifications in the panel
+    function renderNotificationList(notifications) {
+        const container = document.getElementById('notificationList');
+        
+        if (!notifications || notifications.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                    <p class="text-muted mt-2 mb-0">No notifications</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = notifications.map(notif => `
+            <div class="notification-item p-3 border-bottom ${notif.is_read ? '' : 'bg-light'}" 
+                 onclick="markRead(${notif.id}, '${notif.type}', ${notif.form_id || 'null'})" 
+                 style="cursor: pointer;">
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i class="bi ${getNotificationIcon(notif.type)} fs-5 ${getNotificationColor(notif.type)}"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                            <strong class="small">${escapeHtml(notif.title)}</strong>
+                            <small class="text-muted">${getTimeAgo(notif.created_at)}</small>
+                        </div>
+                        <p class="mb-0 small text-muted">${escapeHtml(notif.message.substring(0, 80))}${notif.message.length > 80 ? '...' : ''}</p>
+                        ${notif.form_id ? `<small class="text-primary">Form #${notif.form_id}</small>` : ''}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Get icon based on notification type
+    function getNotificationIcon(type) {
+        const icons = {
+            'form_submitted': 'bi-file-earmark-check',
+            'approval_needed': 'bi-clock-history',
+            'approved': 'bi-check-circle-fill',
+            'rejected': 'bi-x-circle-fill',
+            'archived': 'bi-archive'
+        };
+        return icons[type] || 'bi-info-circle';
+    }
+    
+    // Get color based on notification type
+    function getNotificationColor(type) {
+        const colors = {
+            'form_submitted': 'text-primary',
+            'approval_needed': 'text-warning',
+            'approved': 'text-success',
+            'rejected': 'text-danger',
+            'archived': 'text-info'
+        };
+        return colors[type] || 'text-secondary';
+    }
+    
+    // Mark a notification as read
+    async function markRead(notificationId, type, formId) {
+        try {
+            await fetch('/qams/api/notifications.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: notificationId })
+            });
+            
+            // Refresh list
+            loadNotifications();
+            
+            // Close panel
+            document.getElementById('notificationPanel').style.display = 'none';
+            
+            // If it's an approval notification, redirect
+            if (type === 'approval_needed' && formId) {
+                const userRole = sessionStorage.getItem('userRole');
+                if (userRole === 'teacher') {
+                    // Stay on teacher panel
+                } else if (userRole === 'dept_head') {
+                    window.location.href = `/qams/Dept_Head/dept_head-panel.html?form_id=${formId}`;
+                } else if (userRole === 'dean') {
+                    window.location.href = `/qams/Dean/dean-verification.html?form_id=${formId}`;
+                }
+            }
+        } catch (error) {
+            console.error('Error marking read:', error);
+        }
+    }
+    
+    // Mark all notifications as read
+    async function markAllRead() {
+        try {
+            await fetch('/qams/api/notifications.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: 'all' })
+            });
+            loadNotifications();
+        } catch (error) {
+            console.error('Error marking all read:', error);
+        }
+    }
+    
+    // Format time ago
+    function getTimeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
+        
+        if (seconds < 60) return 'just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days}d ago`;
+        return date.toLocaleDateString();
+    }
+    
+    // Escape HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // Load notifications on page load
+    loadNotifications();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadNotifications, 30000);
+    
+    // Close notification panel when clicking outside
+    document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notificationPanel');
+        const bell = document.querySelector('.btn-outline-secondary.btn-sm.position-relative');
+        if (panel && bell && !panel.contains(event.target) && !bell.contains(event.target)) {
+            panel.style.display = 'none';
+        }
+    });
+    </script>
+</body>
+</html>

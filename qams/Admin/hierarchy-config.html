@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hierarchy Configuration - QAMS Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
+        <div class="container-fluid">
+            <span class="navbar-brand fw-bold">
+                <i class="bi bi-diagram-3 me-2"></i>Hierarchy Configuration
+            </span>
+            <div class="d-flex">
+                <a href="admin-dashboard.html" class="btn btn-light btn-sm me-2">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+                </a>
+                <a href="../Login/index.html" class="btn btn-danger btn-sm">
+                    <i class="bi bi-box-arrow-right me-1"></i>Sign Out
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Statistics Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm bg-primary text-white">
+                    <div class="card-body">
+                        <h6 class="text-white-50">Teacher → Dept Head Mappings</h6>
+                        <h2 class="fw-bold mb-0" id="teacherMappingsCount">0</h2>
+                        <small>Active mappings</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm bg-success text-white">
+                    <div class="card-body">
+                        <h6 class="text-white-50">Dept Head → Dean Mappings</h6>
+                        <h2 class="fw-bold mb-0" id="deptHeadMappingsCount">0</h2>
+                        <small>Active mappings</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm bg-info text-white">
+                    <div class="card-body">
+                        <h6 class="text-white-50">Dean → QAMS Head Mappings</h6>
+                        <h2 class="fw-bold mb-0" id="deanMappingsCount">0</h2>
+                        <small>Active mappings</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Academic Year</label>
+                                <select class="form-select" id="yearFilter" onchange="loadMappings()">
+                                    <option value="">All Years</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Search Teacher</label>
+                                <input type="text" class="form-control" id="searchTeacher" placeholder="Search by teacher name..." onkeyup="filterMappings()">
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary w-100 mt-4" onclick="showAddMappingModal()">
+                                    <i class="bi bi-plus-circle me-2"></i>Add New Mapping
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Mappings Table -->
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="fw-bold"><i class="bi bi-diagram-3 me-2 text-primary"></i>Current Hierarchy Mappings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Teacher</th>
+                                        <th>Employee ID</th>
+                                        <th>Department Head</th>
+                                        <th>Dean</th>
+                                        <th>QAMS Head</th>
+                                        <th>Academic Year</th>
+                                        <th>Actions</th>
+                                     </thead>
+                                <tbody id="mappingsTableBody">
+                                     <td colspan="8" class="text-center py-4">
+                                        <div class="spinner-border text-primary"></div><br>Loading mappings...
+                                     </td>
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hierarchy Visualization -->
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="fw-bold"><i class="bi bi-eye me-2 text-info"></i>Complete Reporting Structure</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="hierarchyTree">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary"></div>
+                                <br>Loading hierarchy...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Mapping Modal -->
+    <div class="modal fade" id="mappingModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-link me-2"></i>Add Hierarchy Mapping</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="mappingForm">
+                        <input type="hidden" id="mappingId" value="0">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Teacher <span class="text-danger">*</span></label>
+                                <select class="form-select" id="teacherId" required>
+                                    <option value="">Select Teacher</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Academic Year <span class="text-danger">*</span></label>
+                                <select class="form-select" id="academicYearId" required>
+                                    <option value="">Select Academic Year</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Department Head <span class="text-danger">*</span></label>
+                                <select class="form-select" id="deptHeadId" required>
+                                    <option value="">Select Department Head</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Dean <span class="text-danger">*</span></label>
+                                <select class="form-select" id="deanId" required>
+                                    <option value="">Select Dean</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">QAMS Head <span class="text-danger">*</span></label>
+                                <select class="form-select" id="qamsHeadId" required>
+                                    <option value="">Select QAMS Head</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveMapping()">
+                        <i class="bi bi-save me-2"></i>Save Mapping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <span id="toastMessage">Operation successful!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let mappingsData = [];
+        let teachers = [];
+        let deptHeads = [];
+        let deans = [];
+        let qamsHeads = [];
+        let years = [];
+        let mappingModal, successToast;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            mappingModal = new bootstrap.Modal(document.getElementById('mappingModal'));
+            successToast = new bootstrap.Toast(document.getElementById('successToast'));
+            loadDropdownData();
+            loadMappings();
+        });
+
+        async function loadDropdownData() {
+            try {
+                const response = await fetch('/qams/api/admin/hierarchy.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    teachers = data.teachers;
+                    deptHeads = data.dept_heads;
+                    deans = data.deans;
+                    qamsHeads = data.qams_heads;
+                    years = data.years;
+                    
+                    populateSelects();
+                }
+            } catch (error) {
+                console.error('Error loading dropdown data:', error);
+                showToast('❌ Error loading data');
+            }
+        }
+
+        function populateSelects() {
+            // Populate teacher select
+            const teacherSelect = document.getElementById('teacherId');
+            teacherSelect.innerHTML = '<option value="">Select Teacher</option>';
+            teachers.forEach(teacher => {
+                teacherSelect.innerHTML += `<option value="${teacher.id}">${escapeHtml(teacher.full_name)} (${teacher.employee_id})</option>`;
+            });
+            
+            // Populate dept head select
+            const deptHeadSelect = document.getElementById('deptHeadId');
+            deptHeadSelect.innerHTML = '<option value="">Select Department Head</option>';
+            deptHeads.forEach(head => {
+                deptHeadSelect.innerHTML += `<option value="${head.id}">${escapeHtml(head.full_name)}</option>`;
+            });
+            
+            // Populate dean select
+            const deanSelect = document.getElementById('deanId');
+            deanSelect.innerHTML = '<option value="">Select Dean</option>';
+            deans.forEach(dean => {
+                deanSelect.innerHTML += `<option value="${dean.id}">${escapeHtml(dean.full_name)}</option>`;
+            });
+            
+            // Populate QAMS head select
+            const qamsSelect = document.getElementById('qamsHeadId');
+            qamsSelect.innerHTML = '<option value="">Select QAMS Head</option>';
+            qamsHeads.forEach(qams => {
+                qamsSelect.innerHTML += `<option value="${qams.id}">${escapeHtml(qams.full_name)}</option>`;
+            });
+            
+            // Populate year filter and select
+            const yearFilter = document.getElementById('yearFilter');
+            const yearSelect = document.getElementById('academicYearId');
+            yearFilter.innerHTML = '<option value="">All Years</option>';
+            yearSelect.innerHTML = '<option value="">Select Academic Year</option>';
+            years.forEach(year => {
+                yearFilter.innerHTML += `<option value="${year.id}">${year.year_name}</option>`;
+                yearSelect.innerHTML += `<option value="${year.id}">${year.year_name}</option>`;
+            });
+        }
+
+        async function loadMappings() {
+            const yearId = document.getElementById('yearFilter').value;
+            let url = '/qams/api/admin/hierarchy.php';
+            if (yearId) url += `?year_id=${yearId}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success) {
+                    mappingsData = data.mappings;
+                    renderMappingsTable(mappingsData);
+                    updateStats();
+                    renderHierarchyTree();
+                }
+            } catch (error) {
+                console.error('Error loading mappings:', error);
+                showToast('❌ Error loading mappings');
+            }
+        }
+
+        function renderMappingsTable(mappings) {
+            const tbody = document.getElementById('mappingsTableBody');
+            
+            if (!mappings || mappings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4">No hierarchy mappings found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = mappings.map((map, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td><strong>${escapeHtml(map.teacher_name)}</strong></td>
+                    <td><small>${escapeHtml(map.teacher_emp_id || 'N/A')}</small></td>
+                    <td>${escapeHtml(map.dept_head_name)}</td>
+                    <td>${escapeHtml(map.dean_name)}</td>
+                    <td>${escapeHtml(map.qams_head_name)}</td>
+                    <td><span class="badge bg-secondary">${escapeHtml(map.year_name)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteMapping(${map.id})" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            // Count unique teachers
+            const teacherCount = new Set(mappingsData.map(m => m.teacher_id)).size;
+            // Count unique dept heads
+            const deptHeadCount = new Set(mappingsData.map(m => m.dept_head_id)).size;
+            // Count unique deans
+            const deanCount = new Set(mappingsData.map(m => m.dean_id)).size;
+            
+            document.getElementById('teacherMappingsCount').textContent = teacherCount;
+            document.getElementById('deptHeadMappingsCount').textContent = deptHeadCount;
+            document.getElementById('deanMappingsCount').textContent = deanCount;
+        }
+
+        function filterMappings() {
+            const searchTerm = document.getElementById('searchTeacher').value.toLowerCase();
+            const filtered = mappingsData.filter(map => 
+                map.teacher_name.toLowerCase().includes(searchTerm)
+            );
+            renderMappingsTable(filtered);
+        }
+
+        function showAddMappingModal() {
+            document.getElementById('mappingForm').reset();
+            document.getElementById('mappingId').value = '0';
+            mappingModal.show();
+        }
+
+        async function saveMapping() {
+            const teacherId = document.getElementById('teacherId').value;
+            const deptHeadId = document.getElementById('deptHeadId').value;
+            const deanId = document.getElementById('deanId').value;
+            const qamsHeadId = document.getElementById('qamsHeadId').value;
+            const academicYearId = document.getElementById('academicYearId').value;
+            
+            if (!teacherId || !deptHeadId || !deanId || !qamsHeadId || !academicYearId) {
+                showToast('❌ Please fill all fields');
+                return;
+            }
+            
+            const mappingData = {
+                teacher_id: parseInt(teacherId),
+                dept_head_id: parseInt(deptHeadId),
+                dean_id: parseInt(deanId),
+                qams_head_id: parseInt(qamsHeadId),
+                academic_year_id: parseInt(academicYearId)
+            };
+            
+            try {
+                const response = await fetch('/qams/api/admin/hierarchy.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(mappingData)
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast('✅ Hierarchy mapping created successfully');
+                    mappingModal.hide();
+                    loadMappings();
+                } else {
+                    showToast('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Connection error');
+            }
+        }
+
+        async function deleteMapping(id) {
+            if (confirm('⚠️ Delete this hierarchy mapping? This action cannot be undone.')) {
+                try {
+                    const response = await fetch(`/qams/api/admin/hierarchy.php?id=${id}`, {
+                        method: 'DELETE'
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showToast('✅ Mapping deleted successfully');
+                        loadMappings();
+                    } else {
+                        showToast('❌ ' + data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('❌ Connection error');
+                }
+            }
+        }
+
+        async function renderHierarchyTree() {
+            const container = document.getElementById('hierarchyTree');
+            
+            if (!mappingsData || mappingsData.length === 0) {
+                container.innerHTML = '<div class="text-center py-4 text-muted">No hierarchy data available</div>';
+                return;
+            }
+            
+            // Group by dean
+            const deanGroups = {};
+            mappingsData.forEach(map => {
+                if (!deanGroups[map.dean_id]) {
+                    deanGroups[map.dean_id] = {
+                        dean_name: map.dean_name,
+                        dept_heads: {}
+                    };
+                }
+                if (!deanGroups[map.dean_id].dept_heads[map.dept_head_id]) {
+                    deanGroups[map.dean_id].dept_heads[map.dept_head_id] = {
+                        dept_head_name: map.dept_head_name,
+                        teachers: []
+                    };
+                }
+                deanGroups[map.dean_id].dept_heads[map.dept_head_id].teachers.push({
+                    name: map.teacher_name,
+                    emp_id: map.teacher_emp_id
+                });
+            });
+            
+            // Get QAMS Head name (first one)
+            const qamsName = mappingsData[0]?.qams_head_name || 'Dr. Grace Mensah';
+            
+            let treeHtml = `
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 bg-warning text-dark rounded-3 shadow">
+                        <h6 class="mb-0"><i class="bi bi-shield-lock me-2"></i>QAMS Head</h6>
+                        <small>${escapeHtml(qamsName)}</small>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+            `;
+            
+            let deanCount = 0;
+            for (const [deanId, dean] of Object.entries(deanGroups)) {
+                if (deanCount >= 3) break;
+                treeHtml += `
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="p-3 bg-info text-white rounded-3 shadow mb-3">
+                            <h6 class="mb-0"><i class="bi bi-mortarboard me-2"></i>Dean</h6>
+                            <small>${escapeHtml(dean.dean_name)}</small>
+                        </div>
+                `;
+                
+                for (const [deptId, dept] of Object.entries(dean.dept_heads)) {
+                    treeHtml += `
+                        <div class="mt-3">
+                            <div class="p-2 bg-success text-white rounded-2 mb-2 shadow-sm">
+                                Dept Head - ${escapeHtml(dept.dept_head_name)}
+                            </div>
+                            <div class="ps-3">
+                    `;
+                    dept.teachers.forEach(teacher => {
+                        treeHtml += `<div class="small text-muted">→ ${escapeHtml(teacher.name)}</div>`;
+                    });
+                    treeHtml += `</div></div>`;
+                }
+                
+                treeHtml += `</div>`;
+                deanCount++;
+            }
+            
+            treeHtml += `</div>`;
+            container.innerHTML = treeHtml;
+        }
+
+        function showToast(message) {
+            document.getElementById('toastMessage').textContent = message;
+            successToast.show();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+    </script>
+</body>
+</html>

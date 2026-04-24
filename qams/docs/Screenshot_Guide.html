@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Screenshot Capture Guide - QAMS Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #0d6efd;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #0d6efd;
+            padding-bottom: 10px;
+        }
+        .subtitle {
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .screenshot-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+            color: white;
+            padding: 15px 20px;
+        }
+        .card-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .card-header p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .screenshot-preview {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .screenshot-preview i {
+            font-size: 48px;
+            color: #6c757d;
+        }
+        .screenshot-preview p {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 12px;
+        }
+        .instructions {
+            background: #e8f0fe;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .instructions strong {
+            color: #0d6efd;
+        }
+        .filename {
+            background: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .badge-login { background: #0d6efd; color: white; }
+        .badge-teacher { background: #198754; color: white; }
+        .badge-dept { background: #0dcaf0; color: #2c3e50; }
+        .badge-dean { background: #6f42c1; color: white; }
+        .badge-qams { background: #fd7e14; color: white; }
+        .badge-admin { background: #2c3e50; color: white; }
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #e9ecef;
+        }
+        .tool-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .tool-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0d6efd;
+            margin-bottom: 15px;
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .tool-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .tool-card i {
+            font-size: 32px;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        .tool-card h4 {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+        .tool-card p {
+            font-size: 12px;
+            color: #6c757d;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 QAMS Documentation - Screenshot Capture Guide</h1>
+        <p class="subtitle">Use this guide to capture all screenshots needed for the user manual. Follow the instructions for each screenshot.</p>
+
+        <!-- Tools Section -->
+        <div class="tool-section">
+            <div class="tool-title">🛠️ Recommended Tools</div>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <i>💻</i>
+                    <h4>Snipping Tool (Windows)</h4>
+                    <p>Press Windows + Shift + S</p>
+                </div>
+                <div class="tool-card">
+                    <i>🍎</i>
+                    <h4>Screenshot (Mac)</h4>
+                    <p>Cmd + Shift + 4</p>
+                </div>
+                <div class="tool-card">
+                    <i>🌐</i>
+                    <h4>Browser DevTools</h4>
+                    <p>F12 → Screenshot options</p>
+                </div>
+                <div class="tool-card">
+                    <i>🎨</i>
+                    <h4>Lightshot</h4>
+                    <p>Free screenshot tool</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot List -->
+        <div class="screenshot-list">
+            
+            <!-- 1. Login Screen -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>1. Login Screen</h3>
+                    <p>Main login interface</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🔐</i>
+                        <p>Login Form Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to: <code>http://localhost/qams/Login/index.html</code><br>
+                        2. Capture the entire login form<br>
+                        3. Show email and password fields<br>
+                        4. Include the QAMS logo and title<br>
+                        <span class="filename">📁 Save as: <strong>login.png</strong></span>
+                        <span class="badge badge-login">Login Screen</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Teacher Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>2. Teacher Dashboard</h3>
+                    <p>Teacher's main view</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>👨‍🏫</i>
+                        <p>Teacher Dashboard Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Login as: <code>john.teacher@edu.gh / teacher123</code><br>
+                        2. Capture the full dashboard<br>
+                        3. Show Teacher Information card<br>
+                        4. Show Courses Assigned table<br>
+                        5. Show filter bar and notification bell<br>
+                        <span class="filename">📁 Save as: <strong>teacher_dashboard.png</strong></span>
+                        <span class="badge badge-teacher">Teacher Panel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Teacher QAMS Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>3. Teacher QAMS Form</h3>
+                    <p>Form submission interface</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>📝</i>
+                        <p>QAMS Form Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. From Teacher Dashboard, click "Open Form"<br>
+                        2. Capture the complete form<br>
+                        3. Show all input fields and dropdowns<br>
+                        4. Show PDF upload sections<br>
+                        5. Show Submit button<br>
+                        <span class="filename">📁 Save as: <strong>qams_form.png</strong></span>
+                        <span class="badge badge-teacher">Teacher Form</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Department Head Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>4. Department Head Dashboard</h3>
+                    <p>Pending submissions view</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>👔</i>
+                        <p>Dept Head Dashboard Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Login as: <code>ama.depthead@edu.gh / depthead123</code><br>
+                        2. Capture the full dashboard<br>
+                        3. Show Department Head Information<br>
+                        4. Show pending submissions list<br>
+                        5. Show View/Approve/Revert buttons<br>
+                        <span class="filename">📁 Save as: <strong>dept_head_dashboard.png</strong></span>
+                        <span class="badge badge-dept">Dept Head Panel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Dept Head Form View -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>5. Dept Head Form Details</h3>
+                    <p>Form review modal</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>👁️</i>
+                        <p>Form Details Modal Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. In Dept Head panel, click "View" on a form<br>
+                        2. Capture the modal window<br>
+                        3. Show teacher and course info<br>
+                        4. Show QA data and PDF links<br>
+                        <span class="filename">📁 Save as: <strong>dept_head_form_view.png</strong></span>
+                        <span class="badge badge-dept">Form Details</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Dean Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>6. Dean Dashboard</h3>
+                    <p>Forms waiting for verification</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🎓</i>
+                        <p>Dean Dashboard Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Login as: <code>kwame.dean@edu.gh / dean123</code><br>
+                        2. Capture the full dashboard<br>
+                        3. Show Dean Information<br>
+                        4. Show pending forms table<br>
+                        5. Show Verify button<br>
+                        <span class="filename">📁 Save as: <strong>dean_dashboard.png</strong></span>
+                        <span class="badge badge-dean">Dean Panel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Dean Verification Panel -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>7. Dean Verification Panel</h3>
+                    <p>Detailed form review</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>✅</i>
+                        <p>Verification Panel Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Click "Verify" on a form<br>
+                        2. Capture the verification panel<br>
+                        3. Show all form details<br>
+                        4. Show Approve and Reject buttons<br>
+                        5. Show PDF links<br>
+                        <span class="filename">📁 Save as: <strong>dean_verification.png</strong></span>
+                        <span class="badge badge-dean">Verification</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. QAMS Head Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>8. QAMS Head Dashboard</h3>
+                    <p>Final review list</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>📦</i>
+                        <p>QAMS Head Dashboard Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Login as: <code>grace.qams@edu.gh / qamshead123</code><br>
+                        2. Capture the full dashboard<br>
+                        3. Show Dean Submissions table<br>
+                        4. Show Review button<br>
+                        <span class="filename">📁 Save as: <strong>qams_head_dashboard.png</strong></span>
+                        <span class="badge badge-qams">QAMS Panel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. QAMS Head Final Approval -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>9. QAMS Head Final Approval</h3>
+                    <p>Archive confirmation</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🏆</i>
+                        <p>Final Approval Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Click "Review" on a pending form<br>
+                        2. Capture the verification panel<br>
+                        3. Show complete approval chain<br>
+                        4. Show Approve & Archive button<br>
+                        <span class="filename">📁 Save as: <strong>qams_head_approval.png</strong></span>
+                        <span class="badge badge-qams">Final Approval</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Admin Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>10. Admin Dashboard</h3>
+                    <p>System overview</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>⚙️</i>
+                        <p>Admin Dashboard Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Login as: <code>admin@edu.gh / admin123</code><br>
+                        2. Capture the full dashboard<br>
+                        3. Show statistics cards<br>
+                        4. Show administration menu<br>
+                        5. Show recent activities<br>
+                        <span class="filename">📁 Save as: <strong>admin_dashboard.png</strong></span>
+                        <span class="badge badge-admin">Admin Panel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. User Management -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>11. User Management</h3>
+                    <p>User list and controls</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>👥</i>
+                        <p>User Management Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Admin → User Management<br>
+                        2. Capture the user table<br>
+                        3. Show role filters and search<br>
+                        4. Show Add User button<br>
+                        5. Show action buttons (edit, reset, deactivate)<br>
+                        <span class="filename">📁 Save as: <strong>user_management.png</strong></span>
+                        <span class="badge badge-admin">User Mgmt</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. Hierarchy Configuration -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>12. Hierarchy Configuration</h3>
+                    <p>Reporting structure</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🔗</i>
+                        <p>Hierarchy Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Admin → Hierarchy Configuration<br>
+                        2. Capture the hierarchy tree<br>
+                        3. Show mappings table<br>
+                        4. Show Add Mapping button<br>
+                        <span class="filename">📁 Save as: <strong>hierarchy_config.png</strong></span>
+                        <span class="badge badge-admin">Hierarchy</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. Academic Configuration -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>13. Academic Configuration</h3>
+                    <p>Year and semester management</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>📅</i>
+                        <p>Academic Config Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Admin → Academic Configuration<br>
+                        2. Capture academic years list<br>
+                        3. Show semester configuration<br>
+                        4. Show submission deadlines<br>
+                        <span class="filename">📁 Save as: <strong>academic_config.png</strong></span>
+                        <span class="badge badge-admin">Academic</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. Form Templates -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>14. Form Templates</h3>
+                    <p>Template builder</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>📝</i>
+                        <p>Form Builder Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Admin → Form Templates<br>
+                        2. Capture template list<br>
+                        3. Show field builder palette<br>
+                        4. Show form canvas<br>
+                        <span class="filename">📁 Save as: <strong>form_templates.png</strong></span>
+                        <span class="badge badge-admin">Templates</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15. System Logs -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>15. System Logs</h3>
+                    <p>Audit trail</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>📊</i>
+                        <p>System Logs Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Admin → System Logs<br>
+                        2. Capture audit log table<br>
+                        3. Show filter bar<br>
+                        4. Show charts (Actions by Role, Timeline)<br>
+                        5. Show Export button<br>
+                        <span class="filename">📁 Save as: <strong>system_logs.png</strong></span>
+                        <span class="badge badge-admin">Logs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16. Backup Management -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>16. Backup Management</h3>
+                    <p>Data backup and restore</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>💾</i>
+                        <p>Backup Management Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Admin → Backup Management<br>
+                        2. Capture storage stats cards<br>
+                        3. Show recent backups list<br>
+                        4. Show backup controls<br>
+                        <span class="filename">📁 Save as: <strong>backup_management.png</strong></span>
+                        <span class="badge badge-admin">Backup</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17. Notification Panel -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>17. Notification Panel</h3>
+                    <p>Notifications dropdown</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🔔</i>
+                        <p>Notification Panel Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Login as any user<br>
+                        2. Click the bell icon<br>
+                        3. Capture the notification dropdown<br>
+                        4. Show unread badge<br>
+                        5. Show notification items<br>
+                        <span class="filename">📁 Save as: <strong>notification_panel.png</strong></span>
+                        <span class="badge badge-login">Notifications</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 18. PDF Receipt -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>18. PDF Receipt</h3>
+                    <p>Official approval document</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>📄</i>
+                        <p>PDF Receipt Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to Dean or QAMS Head verification<br>
+                        2. Click "Download Receipt"<br>
+                        3. Capture the PDF preview<br>
+                        4. Show header and approval chain<br>
+                        5. Show final stamp<br>
+                        <span class="filename">📁 Save as: <strong>pdf_receipt.png</strong></span>
+                        <span class="badge badge-login">PDF</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 19. Change Password -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>19. Change Password</h3>
+                    <p>Security settings</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🔑</i>
+                        <p>Change Password Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Click Settings → Security tab<br>
+                        2. Capture the change password form<br>
+                        3. Show current, new, confirm fields<br>
+                        4. Show Update button<br>
+                        <span class="filename">📁 Save as: <strong>change_password.png</strong></span>
+                        <span class="badge badge-login">Security</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 20. Filter Bar -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>20. Filter Bar</h3>
+                    <p>Filter functionality</p>
+                </div>
+                <div class="card-body">
+                    <div class="screenshot-preview">
+                        <i>🔍</i>
+                        <p>Filter Bar Preview</p>
+                    </div>
+                    <div class="instructions">
+                        <strong>📋 Instructions:</strong><br>
+                        1. Go to any panel with filters<br>
+                        2. Capture the filter bar<br>
+                        3. Show dropdown selections<br>
+                        4. Show Apply and Reset buttons<br>
+                        5. Show active filters badge<br>
+                        <span class="filename">📁 Save as: <strong>filter_bar.png</strong></span>
+                        <span class="badge badge-login">Filters</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Naming Summary -->
+        <div class="footer">
+            <h3>📁 Screenshot File Naming Summary</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px;">
+                <code>login.png</code>
+                <code>teacher_dashboard.png</code>
+                <code>qams_form.png</code>
+                <code>dept_head_dashboard.png</code>
+                <code>dept_head_form_view.png</code>
+                <code>dean_dashboard.png</code>
+                <code>dean_verification.png</code>
+                <code>qams_head_dashboard.png</code>
+                <code>qams_head_approval.png</code>
+                <code>admin_dashboard.png</code>
+                <code>user_management.png</code>
+                <code>hierarchy_config.png</code>
+                <code>academic_config.png</code>
+                <code>form_templates.png</code>
+                <code>system_logs.png</code>
+                <code>backup_management.png</code>
+                <code>notification_panel.png</code>
+                <code>pdf_receipt.png</code>
+                <code>change_password.png</code>
+                <code>filter_bar.png</code>
+            </div>
+            <hr>
+            <p>📸 After capturing all screenshots, save them in: <code>C:/xampp/htdocs/qams/docs/screenshots/</code></p>
+            <p>🎨 For best results, use a consistent browser window size (1366x768 or 1920x1080)</p>
+            <p>✨ Make sure to capture clean screenshots without browser extensions or personal data visible</p>
+            <p>📖 Once captured, you can insert them into the User Manual and Quick Reference Cards</p>
+        </div>
+    </div>
+</body>
+</html>

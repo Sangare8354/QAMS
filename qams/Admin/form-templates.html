@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Templates - QAMS Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
+        <div class="container-fluid">
+            <span class="navbar-brand fw-bold"><i class="bi bi-file-text me-2"></i>Form Template Management</span>
+            <div class="d-flex">
+                <a href="admin-dashboard.html" class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+                <a href="../Login/index.html" class="btn btn-danger btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Template Stats -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3"><div class="card border-0 shadow-sm"><div class="card-body"><div class="d-flex align-items-center"><div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3"><i class="bi bi-file-text text-primary fs-4"></i></div><div><h6 class="text-muted mb-1">Active Templates</h6><h3 class="fw-bold mb-0" id="activeTemplateCount">0</h3></div></div></div></div></div>
+            <div class="col-md-3"><div class="card border-0 shadow-sm"><div class="card-body"><div class="d-flex align-items-center"><div class="bg-success bg-opacity-10 p-3 rounded-circle me-3"><i class="bi bi-check-circle text-success fs-4"></i></div><div><h6 class="text-muted mb-1">Total Fields</h6><h3 class="fw-bold mb-0" id="totalFieldsCount">0</h3></div></div></div></div></div>
+            <div class="col-md-3"><div class="card border-0 shadow-sm"><div class="card-body"><div class="d-flex align-items-center"><div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3"><i class="bi bi-exclamation-triangle text-warning fs-4"></i></div><div><h6 class="text-muted mb-1">Required Fields</h6><h3 class="fw-bold mb-0" id="requiredFieldsCount">0</h3></div></div></div></div></div>
+            <div class="col-md-3"><div class="card border-0 shadow-sm"><div class="card-body"><div class="d-flex align-items-center"><div class="bg-info bg-opacity-10 p-3 rounded-circle me-3"><i class="bi bi-arrow-repeat text-info fs-4"></i></div><div><h6 class="text-muted mb-1">Last Updated</h6><h3 class="fw-bold mb-0" id="lastUpdated">-</h3></div></div></div></div></div>
+        </div>
+
+        <!-- Template Tabs -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="templateTabs" role="tablist">
+                            <li class="nav-item"><button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active"><i class="bi bi-check-circle me-2"></i>Active Templates</button></li>
+                            <li class="nav-item"><button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft"><i class="bi bi-pencil me-2"></i>Draft Templates</button></li>
+                            <li class="nav-item"><button class="nav-link" id="archive-tab" data-bs-toggle="tab" data-bs-target="#archive"><i class="bi bi-archive me-2"></i>Archived Templates</button></li>
+                        </ul>
+                        <div class="mt-3"><button class="btn btn-primary" onclick="showCreateTemplateModal()"><i class="bi bi-plus-circle me-2"></i>Create New Template</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="templateTabContent">
+            <!-- Active Templates Tab -->
+            <div class="tab-pane fade show active" id="active" role="tabpanel">
+                <div class="row g-4" id="activeTemplatesList"></div>
+            </div>
+            <!-- Draft Templates Tab -->
+            <div class="tab-pane fade" id="draft" role="tabpanel">
+                <div class="row g-4" id="draftTemplatesList"></div>
+            </div>
+            <!-- Archived Templates Tab -->
+            <div class="tab-pane fade" id="archive" role="tabpanel">
+                <div class="row g-4" id="archivedTemplatesList"></div>
+            </div>
+        </div>
+
+        <!-- Template Builder Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4"><h5 class="fw-bold"><i class="bi bi-tools me-2 text-primary"></i>Form Field Builder</h5></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Field Types Palette -->
+                            <div class="col-md-3">
+                                <div class="card bg-light"><div class="card-body"><h6 class="fw-bold mb-3">Field Types</h6><div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('text')"><i class="bi bi-type me-2"></i>Text Input</button>
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('number')"><i class="bi bi-123 me-2"></i>Number</button>
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('select')"><i class="bi bi-menu-down me-2"></i>Dropdown</button>
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('file')"><i class="bi bi-file-pdf me-2"></i>File Upload</button>
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('date')"><i class="bi bi-calendar me-2"></i>Date Picker</button>
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('checkbox')"><i class="bi bi-check-square me-2"></i>Checkbox</button>
+                                    <button class="btn btn-outline-primary text-start" onclick="addField('textarea')"><i class="bi bi-textarea me-2"></i>Text Area</button>
+                                </div></div></div>
+                            </div>
+
+                            <!-- Form Canvas -->
+                            <div class="col-md-9">
+                                <div class="card border-2 border-primary border-dashed" id="formCanvas">
+                                    <div class="card-body">
+                                        <h6 class="text-center text-muted mb-4">Click on field types above to add them here</h6>
+                                        <div id="formFields"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Template Settings -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card"><div class="card-body">
+                                    <h6 class="fw-bold mb-3">Template Settings</h6>
+                                    <div class="row">
+                                        <div class="col-md-4"><label class="form-label">Template Name</label><input type="text" class="form-control" id="templateName" placeholder="e.g., Course QAMS Form"></div>
+                                        <div class="col-md-4"><label class="form-label">Version</label><input type="text" class="form-control" id="templateVersion" placeholder="v1.0"></div>
+                                        <div class="col-md-4"><label class="form-label">Status</label><select class="form-select" id="templateStatus"><option value="draft">Draft</option><option value="active">Active</option><option value="archived">Archived</option></select></div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button class="btn btn-success me-2" onclick="saveTemplate()"><i class="bi bi-save me-2"></i>Save Template</button>
+                                        <button class="btn btn-outline-primary me-2" onclick="publishTemplate()"><i class="bi bi-send me-2"></i>Publish to Teachers</button>
+                                        <button class="btn btn-outline-secondary" onclick="previewTemplate()"><i class="bi bi-eye me-2"></i>Preview</button>
+                                    </div>
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Template Modal -->
+    <div class="modal fade" id="createTemplateModal">
+        <div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-primary text-white"><h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Create New Template</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><form id="createTemplateForm"><div class="mb-3"><label class="form-label fw-semibold">Template Name</label><input type="text" class="form-control" id="newTemplateName" required></div><div class="mb-3"><label class="form-label fw-semibold">Description</label><textarea class="form-control" id="newTemplateDesc" rows="3"></textarea></div><div class="mb-3"><label class="form-label fw-semibold">Template Type</label><select class="form-select" id="newTemplateType"><option value="course">Course Level</option><option value="program">Program Level</option><option value="department">Department Level</option></select></div></form></div>
+        <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" onclick="createTemplate()">Create Template</button></div></div></div>
+    </div>
+
+    <!-- Field Properties Modal -->
+    <div class="modal fade" id="fieldModal">
+        <div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-info text-white"><h5 class="modal-title"><i class="bi bi-gear me-2"></i>Field Properties</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><form id="fieldForm"><input type="hidden" id="fieldIndex"><div class="mb-3"><label class="form-label fw-semibold">Field Label</label><input type="text" class="form-control" id="fieldLabel" required></div><div class="mb-3"><label class="form-label fw-semibold">Field Type</label><input type="text" class="form-control" id="fieldType" readonly></div><div class="mb-3"><div class="form-check"><input class="form-check-input" type="checkbox" id="fieldRequired"><label class="form-check-label fw-semibold">Required field</label></div></div><div class="mb-3"><label class="form-label fw-semibold">Placeholder</label><input type="text" class="form-control" id="fieldPlaceholder"></div><div id="optionsContainer" style="display:none;"><label class="form-label fw-semibold">Options (one per line)</label><textarea class="form-control" id="fieldOptions" rows="3" placeholder="Option 1&#10;Option 2&#10;Option 3"></textarea></div></form></div>
+        <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" onclick="saveField()">Add Field</button></div></div></div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal">
+        <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header bg-secondary text-white"><h5 class="modal-title"><i class="bi bi-eye me-2"></i>Template Preview</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body" id="previewContent"></div><div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div></div></div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"><div id="successToast" class="toast align-items-center text-white bg-success border-0"><div class="d-flex"><div class="toast-body"><i class="bi bi-check-circle-fill me-2"></i><span id="toastMessage"></span></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let createModal, fieldModal, previewModal, successToast;
+        let templates = [
+            { id: 1, name: 'Course QAMS Form', type: 'course', status: 'active', version: 'v2.1', created: 'Jan 15, 2026', fields: 12, required: 10, description: 'Standard QAMS form for course evaluation' },
+            { id: 2, name: 'Program QAMS Form', type: 'program', status: 'active', version: 'v1.3', created: 'Jan 10, 2026', fields: 8, required: 6, description: 'Annual program-level quality assurance' },
+            { id: 3, name: 'Department Review', type: 'department', status: 'active', version: 'v1.0', created: 'Feb 1, 2026', fields: 6, required: 4, description: 'Department Head review form' },
+            { id: 4, name: 'Lab Assessment Form', type: 'course', status: 'draft', version: 'v0.8', created: 'Mar 1, 2026', fields: 5, required: 3, progress: 80, description: 'In development' }
+        ];
+        let currentFields = [];
+        let fieldCounter = 0;
+        let editingTemplateId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createModal = new bootstrap.Modal(document.getElementById('createTemplateModal'));
+            fieldModal = new bootstrap.Modal(document.getElementById('fieldModal'));
+            previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            successToast = new bootstrap.Toast(document.getElementById('successToast'));
+            renderTemplates();
+            updateStats();
+        });
+
+        function renderTemplates() {
+            const activeContainer = document.getElementById('activeTemplatesList');
+            const draftContainer = document.getElementById('draftTemplatesList');
+            const archiveContainer = document.getElementById('archivedTemplatesList');
+            
+            const active = templates.filter(t => t.status === 'active');
+            const drafts = templates.filter(t => t.status === 'draft');
+            const archived = templates.filter(t => t.status === 'archived');
+            
+            activeContainer.innerHTML = active.map(t => renderTemplateCard(t)).join('');
+            draftContainer.innerHTML = drafts.map(t => renderDraftCard(t)).join('');
+            archiveContainer.innerHTML = archived.map(t => renderArchiveCard(t)).join('');
+            document.getElementById('activeTemplateCount').textContent = active.length;
+        }
+
+        function renderTemplateCard(t) {
+            return `
+                <div class="col-md-4"><div class="card border-0 shadow-sm h-100 template-card">
+                    <div class="card-header bg-white border-0 pt-4"><div class="d-flex justify-content-between"><h5 class="fw-bold">${escapeHtml(t.name)}</h5><span class="badge bg-success">Active</span></div></div>
+                    <div class="card-body"><p class="text-muted mb-3">${escapeHtml(t.description)}</p>
+                    <div class="mb-3"><div class="d-flex justify-content-between mb-2"><span><i class="bi bi-grid me-2"></i>Total Fields:</span><span class="fw-bold">${t.fields}</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span><i class="bi bi-asterisk text-danger me-2"></i>Required:</span><span class="fw-bold">${t.required}</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span><i class="bi bi-calendar me-2"></i>Created:</span><span class="fw-bold">${t.created}</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span><i class="bi bi-arrow-repeat me-2"></i>Version:</span><span class="fw-bold">${t.version}</span></div></div>
+                    <div class="d-grid gap-2"><button class="btn btn-outline-primary" onclick="editTemplate(${t.id})"><i class="bi bi-pencil-square me-2"></i>Edit Template</button>
+                    <button class="btn btn-outline-secondary" onclick="previewTemplateCard(${t.id})"><i class="bi bi-eye me-2"></i>Preview</button>
+                    <button class="btn btn-outline-danger btn-sm" onclick="archiveTemplate(${t.id})"><i class="bi bi-archive me-2"></i>Archive</button></div></div></div></div>
+            `;
+        }
+
+        function renderDraftCard(t) {
+            return `
+                <div class="col-md-4"><div class="card border-0 shadow-sm"><div class="card-header bg-white border-0 pt-4"><div class="d-flex justify-content-between"><h5 class="fw-bold">${escapeHtml(t.name)}</h5><span class="badge bg-warning text-dark">Draft</span></div></div>
+                <div class="card-body"><p class="text-muted">${escapeHtml(t.description)}</p><div class="progress mb-3" style="height:5px"><div class="progress-bar bg-warning" style="width:${t.progress || 0}%"></div></div>
+                <div class="d-grid gap-2"><button class="btn btn-outline-primary w-100" onclick="editTemplate(${t.id})">Continue Editing</button>
+                <button class="btn btn-outline-success w-100" onclick="publishTemplateCard(${t.id})">Publish Now</button></div></div></div></div>
+            `;
+        }
+
+        function renderArchiveCard(t) {
+            return `<div class="col-md-4"><div class="card border-0 shadow-sm bg-light"><div class="card-body"><h6 class="fw-bold">${escapeHtml(t.name)}</h6><p class="text-muted small">Archived on: ${t.created}</p><button class="btn btn-sm btn-outline-primary" onclick="restoreTemplate(${t.id})"><i class="bi bi-arrow-repeat me-2"></i>Restore</button></div></div></div>`;
+        }
+
+        function showCreateTemplateModal() { document.getElementById('newTemplateName').value = ''; document.getElementById('newTemplateDesc').value = ''; createModal.show(); }
+        function createTemplate() {
+            const name = document.getElementById('newTemplateName').value;
+            if (!name) { showToast('❌ Please enter template name'); return; }
+            templates.push({ id: Date.now(), name: name, description: document.getElementById('newTemplateDesc').value, status: 'draft', version: 'v0.1', created: new Date().toLocaleDateString(), fields: 0, required: 0, progress: 0 });
+            renderTemplates(); createModal.hide(); showToast(`✅ Template "${name}" created`);
+        }
+
+        function editTemplate(id) {
+            const template = templates.find(t => t.id === id);
+            if (template) {
+                editingTemplateId = id;
+                document.getElementById('templateName').value = template.name;
+                document.getElementById('templateVersion').value = template.version;
+                document.getElementById('templateStatus').value = template.status;
+                currentFields = [];
+                document.getElementById('formFields').innerHTML = '';
+                fieldCounter = 0;
+                document.getElementById('formCanvas').scrollIntoView({ behavior: 'smooth' });
+                showToast(`📝 Editing: ${template.name}`);
+            }
+        }
+
+        function addField(type) {
+            document.getElementById('fieldIndex').value = fieldCounter;
+            document.getElementById('fieldLabel').value = getDefaultLabel(type);
+            document.getElementById('fieldType').value = type;
+            document.getElementById('fieldRequired').checked = true;
+            document.getElementById('fieldPlaceholder').value = '';
+            document.getElementById('optionsContainer').style.display = type === 'select' ? 'block' : 'none';
+            fieldModal.show();
+        }
+
+        function getDefaultLabel(type) { const labels = { text: 'Text Field', number: 'Number Field', select: 'Dropdown', file: 'File Upload', date: 'Date Picker', checkbox: 'Checkbox', textarea: 'Text Area' }; return labels[type] || 'New Field'; }
+
+        function saveField() {
+            const label = document.getElementById('fieldLabel').value;
+            const type = document.getElementById('fieldType').value;
+            const required = document.getElementById('fieldRequired').checked;
+            const placeholder = document.getElementById('fieldPlaceholder').value;
+            if (!label) { showToast('❌ Please enter field label'); return; }
+            currentFields.push({ id: ++fieldCounter, label, type, required, placeholder });
+            renderFormFields();
+            fieldModal.hide();
+            updateStats();
+            showToast(`✅ Field "${label}" added`);
+        }
+
+        function renderFormFields() {
+            const container = document.getElementById('formFields');
+            container.innerHTML = currentFields.map(field => `
+                <div class="mb-3 p-3 bg-light rounded field-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <label class="form-label fw-semibold">${escapeHtml(field.label)}${field.required ? '<span class="text-danger"> *</span>' : ''}</label>
+                            ${getFieldPreview(field)}
+                        </div>
+                        <div class="ms-3"><button class="btn btn-sm btn-link text-danger" onclick="removeField(${field.id})"><i class="bi bi-trash"></i> Remove</button></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getFieldPreview(field) {
+            if (field.type === 'text') return `<input type="text" class="form-control" placeholder="${escapeHtml(field.placeholder || 'Enter text')}">`;
+            if (field.type === 'number') return `<input type="number" class="form-control" placeholder="${escapeHtml(field.placeholder || 'Enter number')}">`;
+            if (field.type === 'select') return `<select class="form-select"><option>Select option</option></select>`;
+            if (field.type === 'file') return `<input type="file" class="form-control" accept=".pdf">`;
+            if (field.type === 'date') return `<input type="date" class="form-control">`;
+            if (field.type === 'checkbox') return `<div class="form-check"><input class="form-check-input" type="checkbox"><label class="form-check-label">Checkbox</label></div>`;
+            if (field.type === 'textarea') return `<textarea class="form-control" rows="2" placeholder="${escapeHtml(field.placeholder || 'Enter text')}"></textarea>`;
+            return `<input type="text" class="form-control">`;
+        }
+
+        function removeField(id) { currentFields = currentFields.filter(f => f.id !== id); renderFormFields(); updateStats(); showToast('🗑️ Field removed'); }
+
+        function saveTemplate() {
+            const name = document.getElementById('templateName').value;
+            const version = document.getElementById('templateVersion').value;
+            const status = document.getElementById('templateStatus').value;
+            if (!name) { showToast('❌ Please enter template name'); return; }
+            if (editingTemplateId) {
+                const index = templates.findIndex(t => t.id === editingTemplateId);
+                if (index !== -1) {
+                    templates[index] = { ...templates[index], name, version, status, fields: currentFields.length, required: currentFields.filter(f => f.required).length, updated: new Date().toLocaleDateString() };
+                }
+            } else {
+                templates.push({ id: Date.now(), name, version, status, fields: currentFields.length, required: currentFields.filter(f => f.required).length, created: new Date().toLocaleDateString(), description: 'Custom template' });
+            }
+            renderTemplates(); updateStats(); showToast('✅ Template saved successfully');
+        }
+
+        function publishTemplate() {
+            const name = document.getElementById('templateName').value || 'Current template';
+            if (confirm(`Publish "${name}" to all teachers?`)) showToast(`✅ "${name}" published to all teachers!`);
+        }
+        function publishTemplateCard(id) { const t = templates.find(t => t.id === id); if (t && confirm(`Publish "${t.name}" to all teachers?`)) { t.status = 'active'; renderTemplates(); showToast(`✅ "${t.name}" published`); } }
+        function archiveTemplate(id) { const t = templates.find(t => t.id === id); if (confirm(`Archive "${t.name}"?`)) { t.status = 'archived'; renderTemplates(); showToast(`📦 "${t.name}" archived`); } }
+        function restoreTemplate(id) { const t = templates.find(t => t.id === id); if (t) { t.status = 'draft'; renderTemplates(); showToast(`🔄 "${t.name}" restored to draft`); } }
+        function previewTemplateCard(id) { const t = templates.find(t => t.id === id); if (t) previewContent(t.name, t.fields); }
+        function previewTemplate() { previewContent(document.getElementById('templateName').value || 'Current Template', currentFields.length); }
+        function previewContent(name, fieldCount) {
+            document.getElementById('previewContent').innerHTML = `
+                <div class="card"><div class="card-header bg-light"><h5 class="mb-0">${escapeHtml(name)}</h5></div>
+                <div class="card-body"><p class="text-muted">This is a preview of how the form will appear to teachers.</p>
+                ${currentFields.map(f => `<div class="mb-3"><label class="form-label fw-semibold">${escapeHtml(f.label)}${f.required ? '<span class="text-danger"> *</span>' : ''}</label>${getFieldPreview(f)}</div>`).join('')}
+                ${fieldCount === 0 ? '<div class="alert alert-info">No fields added yet. Add fields using the builder above.</div>' : ''}
+                <div class="alert alert-info mt-3"><i class="bi bi-info-circle me-2"></i>This is a preview only. Actual form may contain additional styling.</div></div></div>`;
+            previewModal.show();
+        }
+
+        function updateStats() { document.getElementById('totalFieldsCount').textContent = currentFields.length; document.getElementById('requiredFieldsCount').textContent = currentFields.filter(f => f.required).length; document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString(); }
+        function showToast(msg) { document.getElementById('toastMessage').textContent = msg; successToast.show(); }
+        function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+    </script>
+</body>
+</html>

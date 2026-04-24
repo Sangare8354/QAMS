@@ -1,0 +1,53 @@
+/* Combined head-panel.css + head-verification.css */
+body {
+    background: #f5f6fa;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+table th, table td {
+    vertical-align: middle !important;
+    font-size: 0.95rem;
+}
+
+.btn {
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+}
+
+.table thead th {
+    background: #f0f0f5 !important;
+    border-bottom: 2px solid #ddd;
+}
+
+.table tbody tr:hover {
+    background: #f5f5ff;
+}
+
+.badge {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+/* Notification Styles */
+.notification-item {
+    transition: background-color 0.2s;
+}
+.notification-item:hover {
+    background-color: #f8f9fa !important;
+}
+.notification-item.bg-light {
+    background-color: #e8f0fe !important;
+}

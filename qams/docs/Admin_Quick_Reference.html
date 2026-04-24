@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Quick Reference Card</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            width: 600px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2632 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 24px; margin-bottom: 5px; }
+        .header p { font-size: 12px; opacity: 0.9; }
+        .content { padding: 20px; }
+        .section { margin-bottom: 20px; border-bottom: 1px solid #e9ecef; padding-bottom: 15px; }
+        .section-title { 
+            font-weight: bold; 
+            color: #2c3e50; 
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .step { margin: 8px 0; display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
+        .step-number { 
+            min-width: 22px; 
+            height: 22px; 
+            background: #2c3e50; 
+            color: white; 
+            border-radius: 50%; 
+            text-align: center; 
+            line-height: 22px; 
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .step-text { flex: 1; }
+        .badge-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+        .badge { padding: 4px 10px; border-radius: 16px; font-size: 10px; font-weight: bold; }
+        .badge-primary { background: #0d6efd; color: white; }
+        .badge-success { background: #198754; color: white; }
+        .badge-warning { background: #ffc107; color: #2c3e50; }
+        .badge-info { background: #0dcaf0; color: #2c3e50; }
+        .badge-danger { background: #dc3545; color: white; }
+        .footer {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-size: 10px;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        .two-column { display: flex; gap: 15px; margin-top: 10px; }
+        .column { flex: 1; }
+        .module-list { list-style: none; padding: 0; }
+        .module-list li { padding: 4px 0; font-size: 11px; border-bottom: 1px solid #eee; }
+        .icon { font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>⚙️ SYSTEM ADMINISTRATOR</h1>
+            <p>Quick Reference Card - QAMS System</p>
+        </div>
+        <div class="content">
+            <div class="two-column">
+                <div class="column">
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="icon">👥</span> USER MANAGEMENT
+                        </div>
+                        <div class="step">
+                            <div class="step-number">➕</div>
+                            <div class="step-text"><strong>Add User:</strong> Fill name, username, role, employee ID</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">✏️</div>
+                            <div class="step-text"><strong>Edit User:</strong> Click pencil icon, update details</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">🔑</div>
+                            <div class="step-text"><strong>Reset Password:</strong> Click key icon, generate new</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">⛔</div>
+                            <div class="step-text"><strong>Deactivate:</strong> Click person-x icon</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="icon">🔗</span> HIERARCHY CONFIG
+                        </div>
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Select Academic Year</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Choose Teacher → Dept Head → Dean → QAMS Head</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Click "Save Mapping"</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="icon">📅</span> ACADEMIC CONFIG
+                        </div>
+                        <div class="step">
+                            <div class="step-number">📆</div>
+                            <div class="step-text"><strong>Add Year:</strong> Name, start/end dates, set as current</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">📖</div>
+                            <div class="step-text"><strong>Manage Semesters:</strong> Set dates, mark active</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">⏰</div>
+                            <div class="step-text"><strong>Deadlines:</strong> Add submission deadlines</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="icon">📝</span> FORM TEMPLATES
+                        </div>
+                        <div class="step">
+                            <div class="step-number">📄</div>
+                            <div class="step-text"><strong>Create Template:</strong> Name, description</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">➕</div>
+                            <div class="step-text"><strong>Add Fields:</strong> Text, Number, Dropdown, File, Date, Checkbox</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">💾</div>
+                            <div class="step-text"><strong>Save & Publish:</strong> Set status to Active</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="icon">📊</span> SYSTEM LOGS
+                        </div>
+                        <div class="step">
+                            <div class="step-number">🔍</div>
+                            <div class="step-text">Filter by date, role, action</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">🔎</div>
+                            <div class="step-text">Search by user or form ID</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">📥</div>
+                            <div class="step-text">Export as CSV for reports</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="icon">💾</span> BACKUP MANAGEMENT
+                        </div>
+                        <div class="step">
+                            <div class="step-number">🔄</div>
+                            <div class="step-text"><strong>Manual Backup:</strong> Click "Manual Backup Now"</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">🔄</div>
+                            <div class="step-text"><strong>Restore:</strong> Select backup → Restore</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">✅</div>
+                            <div class="step-text"><strong>Integrity Check:</strong> Verify database health</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📊</span> DASHBOARD STATISTICS
+                </div>
+                <div class="badge-grid">
+                    <div class="badge badge-primary">Total Accounts</div>
+                    <div class="badge badge-success">Forms Submitted</div>
+                    <div class="badge badge-warning">Revert Rate</div>
+                    <div class="badge badge-info">Approval Rate</div>
+                    <div class="badge badge-danger">Backup Size</div>
+                </div>
+                <div class="step" style="margin-top: 10px;">
+                    <div class="step-number">📈</div>
+                    <div class="step-text">Real-time statistics and recent activities</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🎯</span> QUICK ACTIONS
+                </div>
+                <div class="badge-grid">
+                    <div class="badge badge-primary">Create User</div>
+                    <div class="badge badge-success">Add Academic Year</div>
+                    <div class="badge badge-warning">Backup Now</div>
+                    <div class="badge badge-info">View Logs</div>
+                    <div class="badge badge-danger">Run Integrity Check</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <strong>Login:</strong> admin@edu.gh | <strong>Password:</strong> admin123<br>
+            Support: admin@edu.gh | 🔄 Dashboard auto-refresh every 60 seconds
+        </div>
+    </div>
+</body>
+</html>

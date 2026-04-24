@@ -1,0 +1,52 @@
+/* Combined from your dean-panel.css + dean-verification.css */
+body {
+    background: #eef3ff;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+}
+
+.card-header {
+    font-size: 1.1rem;
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+}
+
+input[readonly] {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.text-end .btn-success {
+    box-shadow: 0 4px 12px rgba(25,135,84,0.3);
+}
+/* Notification Styles */
+.notification-item {
+    transition: background-color 0.2s;
+}
+.notification-item:hover {
+    background-color: #f8f9fa !important;
+}
+.notification-item.bg-light {
+    background-color: #e8f0fe !important;
+}

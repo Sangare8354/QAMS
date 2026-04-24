@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAMS Login - Unified</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light d-flex align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+
+                <!-- Login Card -->
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-header text-center py-4 bg-primary text-white rounded-top-4">
+                        <i class="bi bi-shield-lock display-5 mb-3"></i>
+                        <h2 class="mb-0 fw-bold">QAMS Login</h2>
+                        <p class="mb-0 opacity-75">Quality Assurance Management System</p>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <form id="qamsLoginForm">
+
+                            <!-- Full Email -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" id="email" class="form-control form-control-lg" 
+                                       placeholder="Enter your email address" required autofocus>
+                                <div class="form-text text-muted small mt-2">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Use your institutional email
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                                <div class="input-group input-group-lg">
+                                    <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                                    <span class="input-group-text bg-white">
+                                        <i class="bi bi-eye-slash" id="togglePassword" style="cursor:pointer;"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Login Button -->
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mt-4 py-3 fw-bold shadow-sm">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Login to QAMS
+                            </button>
+                        </form>
+
+                        <!-- Footer Links -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="#" class="small text-muted" onclick="showForgotPassword()">
+                                <i class="bi bi-question-circle"></i> Forgot Password?
+                            </a>
+                            <a href="#" class="small fw-semibold text-primary" onclick="showChangePassword()">
+                                <i class="bi bi-shield-check"></i> Change Password
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overlay Loader -->
+                <div id="loadingOverlay"
+                     class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-none justify-content-center align-items-center"
+                     style="z-index: 2000;">
+                    <div class="spinner-border text-primary" style="width:3rem;height:3rem;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Login Script -->
+<script>
+    // Toggle password visibility
+    document.getElementById("togglePassword").onclick = function () {
+        const pwd = document.getElementById("password");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+        this.classList.toggle("bi-eye");
+        this.classList.toggle("bi-eye-slash");
+    };
+
+    // Handle login form submission with AJAX
+    document.getElementById("qamsLoginForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!email || !password) {
+            alert("❌ Please enter both email and password.");
+            return;
+        }
+
+        if (!email.includes('@') || !email.includes('.')) {
+            alert("❌ Please enter a valid email address.");
+            return;
+        }
+
+        document.getElementById("loadingOverlay").classList.remove("d-none");
+
+        try {
+            const response = await fetch('/qams/api/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Store user data in sessionStorage
+                sessionStorage.setItem('userEmail', data.user.email);
+                sessionStorage.setItem('userRole', data.user.role);
+                sessionStorage.setItem('userName', data.user.name);
+                
+                alert(`✅ Welcome ${data.user.name}!\n\nRedirecting to dashboard...`);
+                window.location.href = data.redirect;
+            } else {
+                alert("❌ " + data.message + "\n\n📝 DEMO CREDENTIALS:\n" +
+                    "Teacher: john.teacher@edu.gh / teacher123\n" +
+                    "Dept Head: ama.depthead@edu.gh / depthead123\n" +
+                    "Dean: kwame.dean@edu.gh / dean123\n" +
+                    "QAMS Head: grace.qams@edu.gh / qamshead123\n" +
+                    "Admin: admin@edu.gh / admin123");
+            }
+        } catch (error) {
+            alert("❌ Connection error. Please make sure XAMPP is running.");
+            console.error(error);
+        } finally {
+            document.getElementById("loadingOverlay").classList.add("d-none");
+        }
+    });
+
+    function showForgotPassword() {
+        alert("🔐 PASSWORD RECOVERY\n\nPlease contact your system administrator.");
+    }
+
+    function showChangePassword() {
+        alert("🔄 CHANGE PASSWORD\n\nAfter login, go to Settings → Security tab.");
+    }
+
+    // In your login success handler, change the redirect paths:
+function getRedirectUrl(role) {
+    switch(role) {
+        case 'admin': return '/qams/Admin/admin-dashboard.html';
+        case 'teacher': return '/qams/Teacher/teacher-panel.html';
+        case 'dept_head': return '/qams/Dept_Head/dept_head-panel.html';
+        case 'dean': return '/qams/Dean/dean-panel.html';
+        case 'qams_head': return '/qams/QAMS_Head/QAMS_head-panel.html';
+        default: return '/qams/Login/index.html';
+    }
+}
+</script>
+</body>
+</html>
